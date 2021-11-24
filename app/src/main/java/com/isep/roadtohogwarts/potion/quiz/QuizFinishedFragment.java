@@ -1,0 +1,61 @@
+package com.isep.roadtohogwarts.potion.quiz;
+
+import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
+
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.isep.roadtohogwarts.R;
+
+public class QuizFinishedFragment extends Fragment {
+
+    private int score;
+    private View inputView;
+
+    public QuizFinishedFragment() {
+    }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getParentFragmentManager().setFragmentResultListener("score", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult( String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported
+                score = bundle.getInt("score");
+                // Do something with the result
+                Log.d("TAG", "onFragmentResult: "+score);
+                TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
+                TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
+                TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
+                categoryTextView.setText(R.string.potions);
+                scoreResultTextView.setText(score+"/10");
+                if(score<8){
+                    scoreCommentTextView.setText(R.string.scoreComment);
+
+                }
+                else{
+                    scoreCommentTextView.setText(R.string.congrats);
+
+                }
+            }
+        });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        inputView = inflater.inflate(R.layout.fragment_quiz_finished, container, false);
+
+
+        return inputView;
+    }
+}

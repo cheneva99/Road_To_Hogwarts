@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_encyclopedia">
+
+    <fragment
+        android:id="@+id/navigation_encyclopedia"
+        android:name="com.isep.roadtohogwarts.potion.encyclopedia.EncyclopediaFragment"
+        android:label="Encyclopedia"
+        tools:layout="@layout/fragment_potions_encyclopedia" />
+
+
+    <fragment
+        android:id="@+id/navigation_quiz_start"
+        android:name="com.isep.roadtohogwarts.potion.quiz.QuizStartFragment"
+        android:label="Quiz"
+        tools:layout="@layout/fragment_quiz_start" >
+
+        <action
+            android:id="@+id/action_quiz_started"
+            app:destination="@id/navigation_quiz_started"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/navigation_quiz_start" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_quiz_started"
+        android:name="com.isep.roadtohogwarts.potion.quiz.QuizStartedFragment"
+        tools:layout="@layout/fragment_quiz" >
+        <action
+            android:id="@+id/action_quiz_ended"
+            app:destination="@id/navigation_quiz_ended"
+            app:popUpTo="@id/navigation_quiz_started"
+            app:popUpToInclusive="true"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_quiz_ended"
+        android:name="com.isep.roadtohogwarts.potion.quiz.QuizFinishedFragment"
+        tools:layout="@layout/fragment_quiz_finished" />
+</navigation>

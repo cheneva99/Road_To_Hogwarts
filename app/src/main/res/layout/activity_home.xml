@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gridLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:orientation="horizontal"
+    android:rowCount="2"
+    app:layout_constraintBottom_toBottomOf="parent"
+
+    tools:context=".HomeActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/characterCard"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="10dp"
+        android:onClick="onClick"
+        >
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:src="@drawable/characters"
+                android:scaleType="fitXY"
+
+
+
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Characters"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/spellCard"
+
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="10dp"
+        android:onClick="onClick"
+
+        >
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:src="@drawable/spells"
+                android:scaleType="fitXY"
+
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="Spells"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/potionCard"
+
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:onClick="onClick"
+
+
+
+        >
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:id="@+id/characterCover"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/characters"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Potions"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bookCard"
+
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_columnWeight="1"
+        android:layout_rowWeight="1"
+        android:layout_margin="8dp"
+        android:onClick="onClick"
+
+        >
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@color/blue"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:src="@drawable/books"
+
+
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Books"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+
+                />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+</GridLayout>

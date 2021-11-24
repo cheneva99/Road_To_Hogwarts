@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_encyclopedia"
+        android:icon="@drawable/ic_vector_book"
+        android:title="@string/encyclopedia" />
+
+    <item
+        android:id="@+id/navigation_quiz_start"
+        android:icon="@drawable/ic_quiz"
+        android:title="@string/quiz" />
+
+</menu>

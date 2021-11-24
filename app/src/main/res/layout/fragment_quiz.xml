@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".potion.quiz.QuizStartedFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            >
+            <TextView
+                android:id="@+id/categoryTextView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:fontFamily="@font/sofiapro_regular_italic"
+                />
+
+            <TextView
+
+                android:id="@+id/questionNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/qTextView"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="@string/question"
+            android:layout_height="0dp"
+            android:fontFamily="@font/sofiapro_regular_italic"
+            android:layout_marginBottom="8dp"
+            />
+
+        <TextView
+            android:id="@+id/questionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/answer1"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/answer2"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <RadioButton
+                android:id="@+id/answer3"
+                android:textSize="15sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </RadioGroup>
+        <TextView
+            android:id="@+id/errorTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please select an answer"
+            android:visibility="invisible"
+            android:textColor="@color/gryffindorRed"
+
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            style="@style/ButtonStyle"
+            android:id="@+id/submitButton"
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            >
+        </androidx.appcompat.widget.AppCompatButton>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>
