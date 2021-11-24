@@ -28,7 +28,6 @@ public class QuizStartFragment extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,8 +42,6 @@ public class QuizStartFragment extends Fragment {
 
         TextView textView =  inputFragmentView.findViewById(R.id.introductionTextView);
         textView.setText("How much do you know about potions ?");
-
-
 
 
         button.setOnClickListener(view -> {

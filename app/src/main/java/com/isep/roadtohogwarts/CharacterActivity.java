@@ -25,20 +25,12 @@ public class CharacterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_wizardingworldlogo);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("Characters");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_encyclopedia, R.id.navigation_quiz_started)
-                .build();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_character);
         navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
@@ -48,20 +40,19 @@ public class CharacterActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
+            case android.R.id.home:
+            {
+                onBackPressed();
+                return true;
+            }
 
-
-            case R.id.action_home:
+            case R.id.action_home: {
                 finish();
                 return true;
+            }
         }
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
-
-
-
-
-
-
 
     @Override
     public boolean onSupportNavigateUp() {

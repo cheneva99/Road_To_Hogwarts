@@ -12,10 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HPTest">
         <activity
+            android:parentActivityName=".HomeActivity"
             android:name="com.isep.roadtohogwarts.CharacterActivity"
             android:exported="false"
             android:label="@string/title_activity_character" />
         <activity
+            android:parentActivityName=".HomeActivity"
             android:name="com.isep.roadtohogwarts.SpellActivity"
             android:exported="false"
             android:label="@string/title_activity_spell" />
@@ -23,6 +25,7 @@
             android:name="com.isep.roadtohogwarts.HomeActivity"
             android:exported="false" />
         <activity
+            android:parentActivityName=".HomeActivity"
             android:name="com.isep.roadtohogwarts.PotionActivity"
             android:exported="false"
             android:label="@string/title_activity_potion" />
@@ -37,6 +40,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:parentActivityName=".HomeActivity"
             android:name="com.isep.roadtohogwarts.BookActivity"
             android:exported="true" />
     </application>

@@ -33,6 +33,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -47,18 +48,14 @@ public class QuizStartedFragment extends Fragment {
     private int checkedRadioId;
 
     public QuizStartedFragment(){
-
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-
     }
-
-
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -74,7 +71,6 @@ public class QuizStartedFragment extends Fragment {
         callApi("potions");
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case id.answer1:
                     checkedRadioId = 0;
@@ -86,8 +82,6 @@ public class QuizStartedFragment extends Fragment {
                     checkedRadioId = 2;
                     break;
             }
-
-
         });
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +99,6 @@ public class QuizStartedFragment extends Fragment {
                     quiz.nextQuestion();
                     setQuestionView(quiz);
 
-
                 }
                 else if(checkedRadioId==-1){
                     errorTextView.setVisibility(View.VISIBLE);
@@ -117,8 +110,6 @@ public class QuizStartedFragment extends Fragment {
                         Bundle result = new Bundle();
                         result.putInt("score", quiz.getScore());
                         getParentFragmentManager().setFragmentResult("score", result);
-
-
                         Navigation.findNavController(v).navigate(id.action_quiz_ended);
 
                     }
@@ -129,8 +120,6 @@ public class QuizStartedFragment extends Fragment {
             }
 
         });
-
-
         return inputFragmentView;
     }
 
@@ -138,6 +127,7 @@ public class QuizStartedFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
     public void callApi(String fragment){
         String myUrl = String.format("https://the-harry-potter-database.herokuapp.com/api/1/%1$s/all",
                 fragment);
@@ -154,33 +144,12 @@ public class QuizStartedFragment extends Fragment {
                             potionList.add(potion);
 
                         }
-                        List<Potion> questionAsked = new ArrayList();
-                        List<Question> questionList =  new ArrayList<>();
-
-                        for (int i = 0; i < 10; i++) {
-                            List<Potion> quizPotionsChoices = new ArrayList<>();
-                            Random random = new Random();
-                            while(quizPotionsChoices.size()<3){
-                                int randomNumber = random.nextInt(potionList.size() - 1);
-                                if(!quizPotionsChoices.contains(potionList.get(randomNumber))||!questionList.contains(potionList.get(randomNumber))||potionList.get(randomNumber).getDescription()!=null){
-                                    quizPotionsChoices.add(potionList.get(randomNumber));
-                                }
-
-                            }
-                            int answerRandomNumber = random.nextInt(3 - 1);
-                            Question question = new Question(quizPotionsChoices.get(answerRandomNumber).getDescription(),quizPotionsChoices.get(0).getName(),quizPotionsChoices.get(1).getName(),quizPotionsChoices.get(2).getName(),answerRandomNumber);
-                            questionList.add(question);
-                            questionAsked.add(potionList.get(answerRandomNumber));
-
-
-                        }
-                        quiz = new Quiz(questionList);
+                        generateQuestion();
                         setQuestionView(quiz);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -191,27 +160,50 @@ public class QuizStartedFragment extends Fragment {
         RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         myRequest.setRetryPolicy(retryPolicy);
         queue.add(myRequest);
+    }
+
+    public void generateQuestion(){
+        List<Potion> questionAsked = new ArrayList();
+        List<Question> questionList =  new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            List<Potion> quizPotionsChoices = new ArrayList<>();
+            Random random = new Random();
+            while(quizPotionsChoices.size()<3){
+                int randomNumber = random.nextInt(potionList.size() - 1);
+                if(!quizPotionsChoices.contains(potionList.get(randomNumber))||!questionList.contains(potionList.get(randomNumber))||potionList.get(randomNumber).getDescription()!=null ){
+
+                    if(!potionList.get(randomNumber).getDescription().toLowerCase().contains("unknow")) {
+                        quizPotionsChoices.add(potionList.get(randomNumber));
+                    }
+                }
+
+            }
+            int answerRandomNumber = random.nextInt(3 - 1);
+            Question question = new Question(quizPotionsChoices.get(answerRandomNumber).getDescription(),quizPotionsChoices.get(0).getName(),quizPotionsChoices.get(1).getName(),quizPotionsChoices.get(2).getName(),answerRandomNumber);
+            questionList.add(question);
+            questionAsked.add(potionList.get(answerRandomNumber));
 
 
-
+        }
+        quiz = new Quiz(questionList);
     }
 
 
 
     public void setQuestionView(Quiz quiz){
+
         TextView questionNumberTextView =inputFragmentView.findViewById(R.id.questionNumberTextView);
         TextView categoryTextView =inputFragmentView.findViewById(R.id.categoryTextView);
-
         TextView questionTextView =inputFragmentView.findViewById(R.id.questionTextView);
 
         questionNumberTextView.setText(""+quiz.getQuestionNumber()+"/10");
         categoryTextView.setText("Potions");
         questionTextView.setText("Which potion match this description: " +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+
         answer1RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer1());
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
-
-
     }
 
 

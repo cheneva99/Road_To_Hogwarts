@@ -26,24 +26,19 @@ public class PotionActivity extends AppCompatActivity {
         binding = ActivityPotionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_wizardingworldlogo);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+       ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Potions");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
-       // NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_potion);
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+
+       AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_encyclopedia, R.id.navigation_quiz_started)
                 .build();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_potion);
         navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,18 +47,19 @@ public class PotionActivity extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
+            case android.R.id.home:
+            {
+                onBackPressed();
+                return true;
+            }
 
-
-            case R.id.action_home:
+            case R.id.action_home: {
                 finish();
                 return true;
+            }
         }
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
-
-
-
-
 
 
 
@@ -71,6 +67,7 @@ public class PotionActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {

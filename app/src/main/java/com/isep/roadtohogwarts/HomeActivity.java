@@ -13,10 +13,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_wizardingworldlogo);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
 
 
 
