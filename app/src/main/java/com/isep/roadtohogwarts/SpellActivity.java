@@ -44,14 +44,14 @@ public class SpellActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_items, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-
-
             case R.id.action_home:
                 finish();
                 return true;
@@ -60,26 +60,20 @@ public class SpellActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     @Override
     public boolean onSupportNavigateUp() {
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
+
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
             getSupportFragmentManager().beginTransaction().commit();
         }
-
         else {
             super.onBackPressed();
         }
-
     }
 
 }

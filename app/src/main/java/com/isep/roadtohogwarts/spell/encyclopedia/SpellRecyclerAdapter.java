@@ -18,11 +18,8 @@ public class SpellRecyclerAdapter extends RecyclerView.Adapter<SpellRecyclerAdap
 
     List<Spell> spells;
 
-
-
     public SpellRecyclerAdapter(List<Spell> spells) {
         this.spells = spells;
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -30,21 +27,15 @@ public class SpellRecyclerAdapter extends RecyclerView.Adapter<SpellRecyclerAdap
         TextView spellName;
         TextView spellDescription;
         Button moreButton;
-        boolean isExpanded=false;
-
+        boolean isExpanded = false;
 
         public ViewHolder(@NonNull View itemView ) {
             super(itemView);
             spellName = itemView.findViewById(R.id.spellName);
             spellType = itemView.findViewById(R.id.spellType);
-             spellDescription= itemView.findViewById(R.id.spellDescription);
-            moreButton= itemView.findViewById(R.id.expandButton);
-
-
-
-
+            spellDescription = itemView.findViewById(R.id.spellDescription);
+            moreButton = itemView.findViewById(R.id.expandButton);
         }
-
     }
 
     @NonNull
@@ -54,43 +45,36 @@ public class SpellRecyclerAdapter extends RecyclerView.Adapter<SpellRecyclerAdap
                 .inflate(R.layout.spell_recyclerview_item,parent,false);
 
         return new SpellRecyclerAdapter.ViewHolder(view);
-
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull SpellRecyclerAdapter.ViewHolder holder, int position) {
         holder.spellName.setText( spells.get(position).getName());
         holder.spellType.setText( spells.get(position).getType());
-       // holder.spellDescription.setText( spells.get(position).getDescription());
-        holder.moreButton.setOnClickListener(view -> {
 
-            if(holder.isExpanded){
-                holder.spellDescription.setText("");
-                holder.moreButton.setText("More");
+        if (spells.get(position).getDescription().equals("null")) {
+            holder.moreButton.setVisibility(View.INVISIBLE);
 
-            }
-            else {
-                holder.spellDescription.setText( spells.get(position).getDescription());
-                holder.moreButton.setText("Less");
+        } else {
 
+            holder.moreButton.setOnClickListener(view -> {
+                if (holder.isExpanded) {
+                    holder.spellDescription.setText("");
+                    holder.moreButton.setText("More");
+                } else {
+                    holder.spellDescription.setText(spells.get(position).getDescription());
+                    holder.moreButton.setText("Less");
+                }
+                holder.isExpanded = !holder.isExpanded;
+            });
 
-
-            }
-            holder.isExpanded= !holder.isExpanded;
-
-
-
-
-        });
-
+        }
     }
 
     @Override
     public int getItemCount() {
         return spells.size();
     }
-
 
 }
 
