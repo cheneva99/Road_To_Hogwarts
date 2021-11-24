@@ -42,15 +42,14 @@ public class EncyclopediaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         inputFragmentView = inflater.inflate(R.layout.fragment_spells_encyclopedia, container, false);
 
-
-       spellList=new ArrayList<>();
+        spellList=new ArrayList<>();
         recyclerView = (RecyclerView) inputFragmentView.findViewById(R.id.recyclerview);
 
         spellRecyclerAdapter= new SpellRecyclerAdapter(spellList);
@@ -65,7 +64,6 @@ public class EncyclopediaFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
 
             }
 
@@ -82,38 +80,25 @@ public class EncyclopediaFragment extends Fragment {
                     for (Spell spell : spellList) {
 
                         if (spell.getName().toLowerCase().contains(s.toString().toLowerCase())) {
-
                             searchedSpells.add(spell);
-
-
                         }else if(spell.getDescription().toLowerCase().contains(s.toString().toLowerCase())){
                             searchedSpells.add(spell);
                         } else if (spell.getType().toLowerCase().contains(s.toString().toLowerCase())) {
-
                             searchedSpells.add(spell);
-
-
                         }else if(spell.getDescription().toLowerCase().contains(s.toString().toLowerCase())){
                             searchedSpells.add(spell);
                         }
                     }
-                   updateRecyclerViewData(searchedSpells);
-
+                    updateRecyclerViewData(searchedSpells);
                 }
                 else{
                     updateRecyclerViewData(spellList);
-
-
-
                 }
             }
         });
         callApi("spells");
         return inputFragmentView;
     }
-
-
-
 
     @Override
     public void onDestroyView() {
@@ -136,36 +121,27 @@ public class EncyclopediaFragment extends Fragment {
                         try{
                             JSONArray jsonArray = new JSONArray(response);
 
-
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Spell spell = new Spell(jsonArray.getJSONObject(i));
-
                                 spellList.add(spell);
-
                             }
+
                             recyclerView.setHasFixedSize(true);
-
-                           updateRecyclerViewData(spellList);
-
+                            updateRecyclerViewData(spellList);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
               //  Log.e(TAG, "Error at sign in : " + error.getMessage());
             }
         });
+
         int socketTimeout = 30000;
         RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         myRequest.setRetryPolicy(retryPolicy);
         queue.add(myRequest);
 
-
-
     }
-
-
-
 }

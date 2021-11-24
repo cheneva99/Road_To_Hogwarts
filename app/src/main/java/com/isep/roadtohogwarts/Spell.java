@@ -14,7 +14,7 @@ public class Spell {
             this.name = spellJson.getString("name");
 
             this.type = spellJson.getString("spell_type");
-            this.description=spellJson.getString("description");
+            this.description = spellJson.getString("description");
         }catch(Exception err){
 
         }
