@@ -9,7 +9,6 @@
     android:orientation="horizontal"
     android:rowCount="2"
     app:layout_constraintBottom_toBottomOf="parent"
-
     tools:context=".HomeActivity">
 
     <androidx.cardview.widget.CardView

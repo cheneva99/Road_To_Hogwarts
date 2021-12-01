@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/book_activity.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/book_details_activity.xml" value="0.1515625" />
         <entry key="app/src/main/res/layout/book_recyclerview_item.xml" value="0.26721014492753625" />
+        <entry key="app/src/main/res/layout/fragment_characters_encyclopedia.xml" value="0.1983695652173913" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.26721014492753625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1875" />

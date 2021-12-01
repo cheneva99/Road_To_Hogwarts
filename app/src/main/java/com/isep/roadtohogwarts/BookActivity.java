@@ -36,18 +36,15 @@ public class BookActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_activity);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_wizardingworldlogo);
-        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setTitle("Books");
         actionBar.setDisplayShowHomeEnabled(true);
         library=new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-
         bookRecyclerAdapter= new BookRecyclerAdapter(library);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         queue= Volley.newRequestQueue(BookActivity.this);
-
         callApi("books");
 
 
@@ -59,16 +56,12 @@ public class BookActivity extends AppCompatActivity  {
     }
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-
-
             case R.id.action_home:
                 finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 
@@ -121,7 +114,7 @@ public class BookActivity extends AppCompatActivity  {
         myRequest.setRetryPolicy(retryPolicy);
         queue.add(myRequest);
 
-
-
     }
+
+
 }

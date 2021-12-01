@@ -27,10 +27,8 @@ public class SpellActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_wizardingworldlogo);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("Spells");
+
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -40,11 +38,10 @@ public class SpellActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_spell);
         navController = navHostFragment.getNavController();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+       // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_items, menu);
         return super.onCreateOptionsMenu(menu);
@@ -52,9 +49,16 @@ public class SpellActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()) {
-            case R.id.action_home:
+            case android.R.id.home:
+            {
+                onBackPressed();
+                return true;
+            }
+
+            case R.id.action_home: {
                 finish();
                 return true;
+            }
         }
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
@@ -64,16 +68,17 @@ public class SpellActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         return navController.navigateUp() || super.onSupportNavigateUp();
     }
-
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
             getSupportFragmentManager().beginTransaction().commit();
         }
+
         else {
             super.onBackPressed();
         }
+
     }
 
 }
