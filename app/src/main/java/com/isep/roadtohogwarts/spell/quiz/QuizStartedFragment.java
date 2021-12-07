@@ -25,6 +25,8 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.isep.roadtohogwarts.Potion;
+import com.isep.roadtohogwarts.R;
 import com.isep.roadtohogwarts.Spell;
 import com.isep.roadtohogwarts.Question;
 import com.isep.roadtohogwarts.Quiz;
@@ -34,6 +36,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -90,6 +93,7 @@ public class QuizStartedFragment extends Fragment {
 
 
         });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             TextView errorTextView = inputFragmentView.findViewById(id.errorTextView);
@@ -151,31 +155,15 @@ public class QuizStartedFragment extends Fragment {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             Spell spell = new Spell(jsonArray.getJSONObject(i));
-
-                            spellList.add(spell);
-
-                        }
-                        List<Spell> questionAsked = new ArrayList();
-                        List<Question> questionList =  new ArrayList<>();
-
-                        for (int i = 0; i < 10; i++) {
-                            List<Spell> quizSpellsChoices = new ArrayList<>();
-                            Random random = new Random();
-                            while(quizSpellsChoices.size()<3){
-                                int randomNumber = random.nextInt(spellList.size() - 1);
-                                if(!quizSpellsChoices.contains(spellList.get(randomNumber))||!questionList.contains(spellList.get(randomNumber))||spellList.get(randomNumber).getDescription()!=null){
-                                    quizSpellsChoices.add(spellList.get(randomNumber));
-                                }
+                            if(!spell.getType().toLowerCase(Locale.ROOT).contains("null")||!spell.getDescription().toLowerCase(Locale.ROOT).contains("null")){
+                                spellList.add(spell);
 
                             }
-                            int answerRandomNumber = random.nextInt(3 - 1);
-                            Question question = new Question(quizSpellsChoices.get(answerRandomNumber).getDescription(),quizSpellsChoices.get(0).getName(),quizSpellsChoices.get(1).getName(),quizSpellsChoices.get(2).getName(),answerRandomNumber);
-                            questionList.add(question);
-                            questionAsked.add(spellList.get(answerRandomNumber));
 
 
                         }
-                        quiz = new Quiz(questionList);
+
+                        generateQuestion();
                         setQuestionView(quiz);
 
                     } catch (JSONException e) {
@@ -197,6 +185,90 @@ public class QuizStartedFragment extends Fragment {
 
     }
 
+    public void generateQuestion() {
+        List<Spell> questionAsked = new ArrayList();
+        List<Question> questionList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+
+            Random random = new Random();
+            Question question;
+            int answerRandomNumber = random.nextInt(3 - 1);
+
+
+            int randomTypeNumber = random.nextBoolean() ? 0 : 1;
+            if(randomTypeNumber==0) {
+                question = generateTypeQuestion(answerRandomNumber);
+            }
+
+          else{
+            question = generateDescriptionQuestion(answerRandomNumber);
+            }
+
+            questionList.add(question);
+            questionAsked.add(spellList.get(answerRandomNumber));
+        }
+
+            quiz = new Quiz(questionList);
+
+    }
+    public Question generateTypeQuestion(int answerRandomNumber){
+        List<Spell> quizSpellsChoices = new ArrayList<>();
+        Random random = new Random();
+
+
+        List <String> spellTypes = new ArrayList<>();
+
+
+        while (quizSpellsChoices.size() < 3) {
+            int randomNumber = random.nextInt(spellList.size() - 1);
+
+            if (!quizSpellsChoices.contains(spellList.get(randomNumber))|| !spellList.contains(spellList.get(randomNumber)) ) {
+                if(spellList.get(randomNumber).getType().contains(",")) {
+                    String spells = spellList.get(randomNumber).getType().split(",")[0];
+                    if (!spellTypes.contains(spells)) {
+                        quizSpellsChoices.add(spellList.get(randomNumber));
+                        spellTypes.add(spells);
+                    }
+                }else{
+                    if (!spellTypes.contains(spellList.get(randomNumber).getType())) {
+                        quizSpellsChoices.add(spellList.get(randomNumber));
+                        spellTypes.add(spellList.get(randomNumber).getType());
+                    }
+                }
+            }
+
+        }
+
+        Question question = new Question(quizSpellsChoices.get(answerRandomNumber).getName(), quizSpellsChoices.get(0).getType(), quizSpellsChoices.get(1).getType(), quizSpellsChoices.get(2).getType(), answerRandomNumber);
+
+        question.setType("Type");
+    return question;
+    }
+    public Question generateDescriptionQuestion(int answerRandomNumber){
+        List<Spell> quizSpellsChoices = new ArrayList<>();
+        Random random = new Random();
+        while (quizSpellsChoices.size() < 3) {
+
+            int randomNumber = random.nextInt(spellList.size() - 1);
+
+
+            if (!quizSpellsChoices.contains(spellList.get(randomNumber)) || !spellList.contains(spellList.get(randomNumber)) ) {
+
+                    quizSpellsChoices.add(spellList.get(randomNumber));
+            }
+
+        }
+
+
+        Question question = new Question(quizSpellsChoices.get(answerRandomNumber).getDescription(), quizSpellsChoices.get(0).getName(), quizSpellsChoices.get(1).getName(), quizSpellsChoices.get(2).getName(), answerRandomNumber);
+        question.setType("Description");
+
+        return question;
+
+    }
+
+
 
 
     public void setQuestionView(Quiz quiz){
@@ -207,16 +279,18 @@ public class QuizStartedFragment extends Fragment {
 
         questionNumberTextView.setText(""+quiz.getQuestionNumber()+"/10");
         categoryTextView.setText("Spells");
-        questionTextView.setText("Which spell match this description: " +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+        if(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getType().equals("Description")){
+            questionTextView.setText("Which spell match this description: " +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+
+        }
+        else{
+            questionTextView.setText(getString(R.string.quizSpellQuestion) +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+
+        }
         answer1RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer1());
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
-
-
     }
-
-
-
 
 }
 

@@ -6,6 +6,7 @@ public class Question {
     private String answer2;
     private String answer3;
     private int correctAnswer;
+    private String type;
 
     public Question(String question, String answer1, String answer2, String answer3, int correctAnswer) {
         this.question = question;
@@ -31,7 +32,13 @@ public class Question {
         return answer3;
     }
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getCorrectAnswer() {
 

@@ -42,5 +42,9 @@
     <fragment
         android:id="@+id/navigation_quiz_ended"
         android:name="com.isep.roadtohogwarts.spell.quiz.QuizFinishedFragment"
-        tools:layout="@layout/fragment_quiz_finished" />
+        tools:layout="@layout/fragment_quiz_finished" >
+        <action
+            android:id="@+id/action_navigation_quiz_ended_to_navigation_quiz_start"
+            app:destination="@id/navigation_quiz_start" />
+    </fragment>
 </navigation>
