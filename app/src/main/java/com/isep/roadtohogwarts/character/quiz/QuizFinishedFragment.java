@@ -1,15 +1,17 @@
-package com.isep.roadtohogwarts.character.quiz;
+package com.isep.roadtohogwarts.spell.quiz;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import com.isep.roadtohogwarts.R;
 
@@ -35,7 +37,7 @@ public class QuizFinishedFragment extends Fragment {
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
-                categoryTextView.setText(R.string.potions);
+                categoryTextView.setText("Spells");
                 scoreResultTextView.setText(score+"/10");
                 if(score<8){
                     scoreCommentTextView.setText(R.string.scoreComment);
@@ -45,6 +47,17 @@ public class QuizFinishedFragment extends Fragment {
                     scoreCommentTextView.setText(R.string.congrats);
 
                 }
+                Button restartButton = inputView.findViewById(R.id.restartQuizButton);
+                restartButton.setOnClickListener(view -> {
+                    try {
+                        Navigation.findNavController(view).navigateUp();
+
+
+                    }
+                    catch (Exception e){
+                        Log.d("TAG", "onClick: "+e);
+                    }
+                });
             }
         });
     }
@@ -57,4 +70,5 @@ public class QuizFinishedFragment extends Fragment {
 
         return inputView;
     }
+
 }

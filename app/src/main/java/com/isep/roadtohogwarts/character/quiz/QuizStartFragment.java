@@ -1,4 +1,4 @@
-package com.isep.roadtohogwarts.character.quiz;
+package com.isep.roadtohogwarts.spell.quiz;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +41,7 @@ public class QuizStartFragment extends Fragment {
         Button button = inputFragmentView.findViewById(R.id.startQuizButton);
 
         TextView textView =  inputFragmentView.findViewById(R.id.introductionTextView);
-        textView.setText("How much do you know about HP characters ?");
+        textView.setText("How much do you know about spells ?");
 
 
 
