@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.HPTest">
         <activity
             android:parentActivityName=".HomeActivity"
@@ -42,6 +43,7 @@
             android:parentActivityName=".HomeActivity"
             android:name="com.isep.roadtohogwarts.BookActivity"
             android:exported="true" />
+
     </application>
 
 </manifest>

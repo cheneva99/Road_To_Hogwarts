@@ -1,13 +1,32 @@
 package com.isep.roadtohogwarts;
 
+import org.json.JSONObject;
+
 public class Character {
     private String name;
-    private String status;
+    private boolean student;
+    private boolean staff;
     private String species;
     private String house;
     private String actorName;
     private String patronus;
     private String imageUrl;
+
+
+    public Character(JSONObject characterJson) {
+        try {
+            this.name = characterJson.getString("name");
+            this.student = characterJson.getBoolean("hogwartsStudent");
+            this.staff = characterJson.getBoolean("hogwartsStaff");
+            this.species = characterJson.getString("species");
+            this.actorName = characterJson.getString("actor");
+            this.house = characterJson.getString("house");
+            this.patronus = characterJson.getString("patronus");
+            this.imageUrl = characterJson.getString("image");
+        } catch (Exception err) {
+
+        }
+    }
 
     public String getName() {
         return name;
@@ -17,62 +36,59 @@ public class Character {
         this.name = name;
     }
 
-    public Character(String name, String status, String species, String house, String actorName, String patronus, String imageUrl) {
-        this.name = name;
-        this.status = status;
-        this.species = species;
-        this.house = house;
-        this.actorName = actorName;
-        this.patronus = patronus;
-        this.imageUrl = imageUrl;
+    public boolean isStudent() {
+        return student;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStudent(boolean student) {
+        this.student = student;
     }
 
-    public void setSpecies(String species) {
-        this.species = species;
+    public boolean isStaff() {
+        return staff;
     }
 
-    public void setHouse(String house) {
-        this.house = house;
-    }
-
-    public void setActorName(String actorName) {
-        this.actorName = actorName;
-    }
-
-    public void setPatronus(String patronus) {
-        this.patronus = patronus;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getStatus() {
-        return status;
+    public void setStaff(boolean staff) {
+        this.staff = staff;
     }
 
     public String getSpecies() {
         return species;
     }
 
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
     public String getHouse() {
         return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
     }
 
     public String getActorName() {
         return actorName;
     }
 
+    public void setActorName(String actorName) {
+        this.actorName = actorName;
+    }
+
     public String getPatronus() {
         return patronus;
+    }
+
+    public void setPatronus(String patronus) {
+        this.patronus = patronus;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

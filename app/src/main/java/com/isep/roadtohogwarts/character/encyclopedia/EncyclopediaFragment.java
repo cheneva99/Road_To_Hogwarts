@@ -1,6 +1,9 @@
 package com.isep.roadtohogwarts.character.encyclopedia;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +11,34 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.isep.roadtohogwarts.Character;
 import com.isep.roadtohogwarts.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EncyclopediaFragment extends Fragment {
 
     private View inputFragmentView;
     private RequestQueue queue;
-   // private List<Character> characterList;
+    private List<Character> characterList;
     RecyclerView recyclerView;
-   // CharacterRecyclerAdapter characterRecyclerAdapter;
+   CharacterRecyclerAdapter characterRecyclerAdapter;
     EditText searchBar;
 
     @Override
@@ -32,13 +51,13 @@ public class EncyclopediaFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         inputFragmentView = inflater.inflate(R.layout.fragment_characters_encyclopedia, container, false);
 
-/*
+
         characterList=new ArrayList<>();
         recyclerView = (RecyclerView) inputFragmentView.findViewById(R.id.recyclerview);
 
         characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(),2);
+        recyclerView.setLayoutManager(gridLayoutManager);
         queue= Volley.newRequestQueue(container.getContext());
         searchBar = (EditText)inputFragmentView.findViewById(R.id.searchEditText);
 
@@ -69,7 +88,7 @@ public class EncyclopediaFragment extends Fragment {
                             searchedCharacters.add(character);
 
 
-                        }else if(character.getDescription().toLowerCase().contains(s.toString().toLowerCase())){
+                        }else if(character.getHouse().toLowerCase().contains(s.toString().toLowerCase())){
                             searchedCharacters.add(character);
                         }
                     }
@@ -84,7 +103,7 @@ public class EncyclopediaFragment extends Fragment {
                 }
             }
         });
-        callApi("characters");*/
+        callApi();
         return inputFragmentView;
     }
 
@@ -95,16 +114,15 @@ public class EncyclopediaFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
     }
-/*
+
     public void updateRecyclerViewData(List<Character> characterList){
         characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList);
         recyclerView.setAdapter(characterRecyclerAdapter);
     }
 
-    public void callApi(String fragment){
+    public void callApi(){
 
-        String myUrl = String.format("https://the-harry-potter-database.herokuapp.com/api/1/%1$s/all",
-                fragment);
+        String myUrl = "https://hp-api.herokuapp.com/api/characters";
 
         StringRequest myRequest = new StringRequest(Request.Method.GET, myUrl,
                 new Response.Listener<String>() {
@@ -141,7 +159,7 @@ public class EncyclopediaFragment extends Fragment {
 
 
 
-    }*/
+    }
 
 
 
