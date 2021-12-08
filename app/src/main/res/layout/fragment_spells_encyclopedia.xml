@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".spell.encyclopedia.EncyclopediaFragment"
     android:orientation="vertical"
-
     >
-
 
     <EditText
         android:id="@+id/searchEditText"
@@ -22,6 +20,12 @@
         android:padding="8dp"
         />
 
+    <Spinner
+        android:id="@+id/filter"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="8dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview"
