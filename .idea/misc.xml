@@ -34,7 +34,7 @@
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/fragment_potions_encyclopedia.xml" value="0.1875" />
         <entry key="app/src/main/res/layout/fragment_potions_quiz.xml" value="0.1875" />
-        <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.14361702127659576" />
+        <entry key="app/src/main/res/layout/fragment_quiz.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_quiz_finished.xml" value="0.15885416666666666" />
         <entry key="app/src/main/res/layout/fragment_quiz_start.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/fragment_spells_encyclopedia.xml" value="0.2115036231884058" />

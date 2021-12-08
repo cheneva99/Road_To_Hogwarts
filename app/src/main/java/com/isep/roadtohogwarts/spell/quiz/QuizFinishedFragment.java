@@ -50,7 +50,7 @@ public class QuizFinishedFragment extends Fragment {
                 Button restartButton = inputView.findViewById(R.id.restartQuizButton);
                 restartButton.setOnClickListener(view -> {
                     try {
-                        Navigation.findNavController(view).navigate(R.id.action_navigation_quiz_ended_to_navigation_quiz_start);
+                        Navigation.findNavController(view).navigateUp();
 
 
                     }
@@ -70,4 +70,5 @@ public class QuizFinishedFragment extends Fragment {
 
         return inputView;
     }
+
 }
