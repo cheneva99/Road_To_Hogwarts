@@ -1,4 +1,4 @@
-package com.isep.roadtohogwarts.spell.quiz;
+package com.isep.roadtohogwarts.character.quiz;
 
 import static com.isep.roadtohogwarts.R.id;
 import static com.isep.roadtohogwarts.R.layout;
@@ -25,11 +25,10 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.isep.roadtohogwarts.Potion;
-import com.isep.roadtohogwarts.R;
-import com.isep.roadtohogwarts.Spell;
 import com.isep.roadtohogwarts.Question;
 import com.isep.roadtohogwarts.Quiz;
+import com.isep.roadtohogwarts.R;
+import com.isep.roadtohogwarts.Spell;
 
 import org.json.JSONArray;
 import org.json.JSONException;

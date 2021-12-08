@@ -1,4 +1,4 @@
-package com.isep.roadtohogwarts.spell.quiz;
+package com.isep.roadtohogwarts.character.quiz;
 
 import android.os.Bundle;
 import android.util.Log;
