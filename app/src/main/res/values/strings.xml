@@ -17,4 +17,5 @@
     <string name="encyclopedia">Encyclopedia</string>
     <string name="title_activity_spell">SpellActivity</string>
     <string name="title_activity_character">CharacterActivity</string>
+    <string name="quizSpellQuestion">What is the type of this spell :</string>
 </resources>

@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.isep.roadtohogwarts.R;
@@ -46,6 +48,16 @@ public class QuizFinishedFragment extends Fragment {
                     scoreCommentTextView.setText(R.string.congrats);
 
                 }
+                Button restartButton = inputView.findViewById(R.id.restartQuizButton);
+                restartButton.setOnClickListener(view -> {
+                    try {
+                        Navigation.findNavController(view).navigate(R.id.action_navigation_quiz_ended_to_navigation_quiz_start);
+
+                    }
+                    catch (Exception e){
+                        Log.d("TAG", "onClick: "+e);
+                    }
+                });
             }
         });
     }
