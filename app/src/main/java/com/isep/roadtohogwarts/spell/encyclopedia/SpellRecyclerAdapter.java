@@ -50,7 +50,11 @@ public class SpellRecyclerAdapter extends RecyclerView.Adapter<SpellRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull SpellRecyclerAdapter.ViewHolder holder, int position) {
         holder.spellName.setText( spells.get(position).getName());
-        holder.spellType.setText( spells.get(position).getType());
+
+        String spellType = spells.get(position).getType();
+        if (spellType != "null") {
+            holder.spellType.setText(spellType);
+        }
 
         if (spells.get(position).getDescription().equals("null")) {
             holder.moreButton.setVisibility(View.INVISIBLE);
