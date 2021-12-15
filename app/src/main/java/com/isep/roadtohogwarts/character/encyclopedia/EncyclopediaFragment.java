@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +33,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EncyclopediaFragment extends Fragment {
+public class EncyclopediaFragment extends Fragment implements CharacterRecyclerAdapter.OnItemListener {
 
     private View inputFragmentView;
     private RequestQueue queue;
@@ -55,7 +56,7 @@ public class EncyclopediaFragment extends Fragment {
         characterList=new ArrayList<>();
         recyclerView = (RecyclerView) inputFragmentView.findViewById(R.id.recyclerview);
 
-        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList);
+        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList,this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
         queue= Volley.newRequestQueue(container.getContext());
@@ -116,7 +117,7 @@ public class EncyclopediaFragment extends Fragment {
     }
 
     public void updateRecyclerViewData(List<Character> characterList){
-        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList);
+        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList,this);
         recyclerView.setAdapter(characterRecyclerAdapter);
     }
 
@@ -160,6 +161,19 @@ public class EncyclopediaFragment extends Fragment {
 
 
     }
+    public void onItemClick(int position) {
+        Log.d("TAG", "onItemClick: "+"OUI");
+        Bundle result = new Bundle();
+        result.putInt("position", position);
+        getParentFragmentManager().setFragmentResult("position", result);
+
+
+        Navigation.findNavController(this.getView()).navigate(R.id.action_goto_character_details);
+
+        //Navigation.findNavController(v).navigate(R.id.action_quiz_ended);
+
+    }
+
 
 
 

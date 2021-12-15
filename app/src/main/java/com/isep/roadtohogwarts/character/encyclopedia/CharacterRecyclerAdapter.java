@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.isep.roadtohogwarts.Character;
+import com.isep.roadtohogwarts.OnItemListener;
 import com.isep.roadtohogwarts.R;
 import com.squareup.picasso.Picasso;
 
@@ -18,22 +19,33 @@ import java.util.List;
 
 public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecyclerAdapter.ViewHolder>  {
 
-    List<Character> characters;
+    private List<Character> characters;
+    private OnItemListener onItemListener;
 
 
-    public CharacterRecyclerAdapter(List<Character> characters) {
+
+    public CharacterRecyclerAdapter(List<Character> characters,OnItemListener onItemListener) {
         this.characters = characters;
+        this.onItemListener= onItemListener;
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView characterName;
-        ImageView characterCard;
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        private final TextView characterName;
+        private final ImageView characterCard;
+        OnItemListener onItemListener;
 
-        public ViewHolder(@NonNull View itemView ) {
+        public ViewHolder(@NonNull View itemView, OnItemListener onItemListener ) {
             super(itemView);
-            characterName = itemView.findViewById(R.id.characterName);
-            characterCard = itemView.findViewById(R.id.characterCard);
+            this.characterName = itemView.findViewById(R.id.characterName);
+            this.characterCard = itemView.findViewById(R.id.characterCard);
+            itemView.setOnClickListener(this);
+            this.onItemListener= onItemListener;
+
+        }
+        @Override
+        public void onClick(View v) {
+            this.onItemListener.onItemClick(getAdapterPosition());
         }
 
     }
@@ -44,7 +56,7 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.character_recyclerview_item,parent,false);
 
-        return new CharacterRecyclerAdapter.ViewHolder(view);
+        return new CharacterRecyclerAdapter.ViewHolder(view,this.onItemListener);
 
 
     }
@@ -74,6 +86,11 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
     public int getItemCount() {
         return characters.size();
     }
+
+    public interface OnItemListener{
+        void onItemClick(int position);
+    }
+
 
 
 }
