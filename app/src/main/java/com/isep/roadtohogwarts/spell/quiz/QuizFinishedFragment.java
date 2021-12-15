@@ -1,11 +1,14 @@
 package com.isep.roadtohogwarts.spell.quiz;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Button;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +17,12 @@ import androidx.fragment.app.FragmentResultListener;
 import androidx.navigation.Navigation;
 
 import com.isep.roadtohogwarts.R;
+
+import java.io.IOException;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class QuizFinishedFragment extends Fragment {
 
@@ -37,13 +46,32 @@ public class QuizFinishedFragment extends Fragment {
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
+                GifImageView gifImageView = inputView.findViewById(R.id.gifImageView);
                 categoryTextView.setText("Spells");
                 scoreResultTextView.setText(score+"/10");
+
                 if(score<8){
+
+                    try {
+                        GifDrawable gifDrawableFail = new GifDrawable(getResources(), R.drawable.failed_quiz);
+                        gifImageView.setImageDrawable(gifDrawableFail);
+                    } catch (Resources.NotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     scoreCommentTextView.setText(R.string.scoreComment);
 
                 }
                 else{
+                    try {
+                        GifDrawable gifDrawableSuccess = new GifDrawable(getResources(), R.drawable.quiz_success);
+                        gifImageView.setImageDrawable(gifDrawableSuccess);
+                    } catch (Resources.NotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     scoreCommentTextView.setText(R.string.congrats);
 
                 }
