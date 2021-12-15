@@ -23,7 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.isep.roadtohogwarts.Potion;
 import com.isep.roadtohogwarts.R;
-import com.isep.roadtohogwarts.databinding.FragmentPotionsEncyclopediaBinding;
 
 import org.json.JSONArray;
 import org.json.JSONException;

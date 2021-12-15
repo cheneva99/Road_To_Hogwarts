@@ -25,22 +25,24 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.isep.roadtohogwarts.Potion;
 import com.isep.roadtohogwarts.Question;
 import com.isep.roadtohogwarts.Quiz;
+import com.isep.roadtohogwarts.R;
+import com.isep.roadtohogwarts.Spell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
 public class QuizStartedFragment extends Fragment {
     private View inputFragmentView;
     private RequestQueue queue;
-    private List<Potion> potionList;
+    private List<Spell> spellList;
     private Quiz quiz;
     private RadioButton answer1RadioButton;
     private RadioButton answer2RadioButton;
@@ -64,7 +66,7 @@ public class QuizStartedFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         inputFragmentView = inflater.inflate(layout.fragment_quiz, container, false);
-        potionList=new ArrayList<>();
+        spellList=new ArrayList<>();
          answer1RadioButton = inputFragmentView.findViewById(id.answer1);
          answer2RadioButton = inputFragmentView.findViewById(id.answer2);
          answer3RadioButton = inputFragmentView.findViewById(id.answer3);
@@ -72,7 +74,7 @@ public class QuizStartedFragment extends Fragment {
         queue= Volley.newRequestQueue(container.getContext());
         Button button = inputFragmentView.findViewById(id.submitButton);
         RadioGroup radioGroup = inputFragmentView.findViewById(id.radiogroup);
-        callApi("potions");
+        callApi("spells");
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
 
@@ -90,6 +92,7 @@ public class QuizStartedFragment extends Fragment {
 
 
         });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             TextView errorTextView = inputFragmentView.findViewById(id.errorTextView);
@@ -120,7 +123,7 @@ public class QuizStartedFragment extends Fragment {
                         getParentFragmentManager().setFragmentResult("score", result);
 
 
-                        Navigation.findNavController(v).navigate(id.action_quiz_ended);
+                     Navigation.findNavController(v).navigate(id.action_quiz_ended);
 
                     }
                     catch (Exception e){
@@ -150,32 +153,16 @@ public class QuizStartedFragment extends Fragment {
 
 
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            Potion potion = new Potion(jsonArray.getJSONObject(i));
-
-                            potionList.add(potion);
-
-                        }
-                        List<Potion> questionAsked = new ArrayList();
-                        List<Question> questionList =  new ArrayList<>();
-
-                        for (int i = 0; i < 10; i++) {
-                            List<Potion> quizPotionsChoices = new ArrayList<>();
-                            Random random = new Random();
-                            while(quizPotionsChoices.size()<3){
-                                int randomNumber = random.nextInt(potionList.size() - 1);
-                                if(!quizPotionsChoices.contains(potionList.get(randomNumber))||!questionList.contains(potionList.get(randomNumber))||potionList.get(randomNumber).getDescription()!=null){
-                                    quizPotionsChoices.add(potionList.get(randomNumber));
-                                }
+                            Spell spell = new Spell(jsonArray.getJSONObject(i));
+                            if(!spell.getType().toLowerCase(Locale.ROOT).contains("null")||!spell.getDescription().toLowerCase(Locale.ROOT).contains("null")){
+                                spellList.add(spell);
 
                             }
-                            int answerRandomNumber = random.nextInt(3 - 1);
-                            Question question = new Question(quizPotionsChoices.get(answerRandomNumber).getDescription(),quizPotionsChoices.get(0).getName(),quizPotionsChoices.get(1).getName(),quizPotionsChoices.get(2).getName(),answerRandomNumber);
-                            questionList.add(question);
-                            questionAsked.add(potionList.get(answerRandomNumber));
 
 
                         }
-                        quiz = new Quiz(questionList);
+
+                        generateQuestion();
                         setQuestionView(quiz);
 
                     } catch (JSONException e) {
@@ -197,6 +184,90 @@ public class QuizStartedFragment extends Fragment {
 
     }
 
+    public void generateQuestion() {
+        List<Spell> questionAsked = new ArrayList();
+        List<Question> questionList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+
+            Random random = new Random();
+            Question question;
+            int answerRandomNumber = random.nextInt(3 - 1);
+
+
+            int randomTypeNumber = random.nextBoolean() ? 0 : 1;
+            if(randomTypeNumber==0) {
+                question = generateTypeQuestion(answerRandomNumber);
+            }
+
+          else{
+            question = generateDescriptionQuestion(answerRandomNumber);
+            }
+
+            questionList.add(question);
+            questionAsked.add(spellList.get(answerRandomNumber));
+        }
+
+            quiz = new Quiz(questionList);
+
+    }
+    public Question generateTypeQuestion(int answerRandomNumber){
+        List<Spell> quizSpellsChoices = new ArrayList<>();
+        Random random = new Random();
+
+
+        List <String> spellTypes = new ArrayList<>();
+
+
+        while (quizSpellsChoices.size() < 3) {
+            int randomNumber = random.nextInt(spellList.size() - 1);
+
+            if (!quizSpellsChoices.contains(spellList.get(randomNumber))|| !spellList.contains(spellList.get(randomNumber)) ) {
+                if(spellList.get(randomNumber).getType().contains(",")) {
+                    String spells = spellList.get(randomNumber).getType().split(",")[0];
+                    if (!spellTypes.contains(spells)) {
+                        quizSpellsChoices.add(spellList.get(randomNumber));
+                        spellTypes.add(spells);
+                    }
+                }else{
+                    if (!spellTypes.contains(spellList.get(randomNumber).getType())) {
+                        quizSpellsChoices.add(spellList.get(randomNumber));
+                        spellTypes.add(spellList.get(randomNumber).getType());
+                    }
+                }
+            }
+
+        }
+
+        Question question = new Question(quizSpellsChoices.get(answerRandomNumber).getName(), quizSpellsChoices.get(0).getType(), quizSpellsChoices.get(1).getType(), quizSpellsChoices.get(2).getType(), answerRandomNumber);
+
+        question.setType("Type");
+    return question;
+    }
+    public Question generateDescriptionQuestion(int answerRandomNumber){
+        List<Spell> quizSpellsChoices = new ArrayList<>();
+        Random random = new Random();
+        while (quizSpellsChoices.size() < 3) {
+
+            int randomNumber = random.nextInt(spellList.size() - 1);
+
+
+            if (!quizSpellsChoices.contains(spellList.get(randomNumber)) || !spellList.contains(spellList.get(randomNumber)) ) {
+
+                    quizSpellsChoices.add(spellList.get(randomNumber));
+            }
+
+        }
+
+
+        Question question = new Question(quizSpellsChoices.get(answerRandomNumber).getDescription(), quizSpellsChoices.get(0).getName(), quizSpellsChoices.get(1).getName(), quizSpellsChoices.get(2).getName(), answerRandomNumber);
+        question.setType("Description");
+
+        return question;
+
+    }
+
+
 
 
     public void setQuestionView(Quiz quiz){
@@ -206,17 +277,19 @@ public class QuizStartedFragment extends Fragment {
         TextView questionTextView =inputFragmentView.findViewById(id.questionTextView);
 
         questionNumberTextView.setText(""+quiz.getQuestionNumber()+"/10");
-        categoryTextView.setText("Characters");
-        questionTextView.setText("Which character match this description: " +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+        categoryTextView.setText("Spells");
+        if(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getType().equals("Description")){
+            questionTextView.setText("Which spell match this description: " +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+
+        }
+        else{
+            questionTextView.setText(getString(R.string.quizSpellQuestion) +quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getQuestion());
+
+        }
         answer1RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer1());
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
-
-
     }
-
-
-
 
 }
 

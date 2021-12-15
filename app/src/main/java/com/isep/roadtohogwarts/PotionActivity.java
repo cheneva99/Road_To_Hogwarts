@@ -26,15 +26,9 @@ public class PotionActivity extends AppCompatActivity {
         binding = ActivityPotionBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-       ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Potions");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
-       AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_encyclopedia, R.id.navigation_quiz_started)
-                .build();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_potion);
@@ -73,7 +67,6 @@ public class PotionActivity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             getSupportFragmentManager().popBackStack();
             getSupportFragmentManager().beginTransaction().commit();
-            Log.d("TAG", "onBackPressed: succed");
         }
 
         else {

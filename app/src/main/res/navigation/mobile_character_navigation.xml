@@ -2,14 +2,31 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mobile_navigation"
+    android:id="@+id/mobile_spell_navigation"
     app:startDestination="@+id/navigation_encyclopedia">
 
     <fragment
         android:id="@+id/navigation_encyclopedia"
         android:name="com.isep.roadtohogwarts.character.encyclopedia.EncyclopediaFragment"
         android:label="Encyclopedia"
-        tools:layout="@layout/fragment_characters_encyclopedia" />
+        tools:layout="@layout/fragment_characters_encyclopedia" >
+
+        <action
+            android:id="@+id/action_goto_character_details"
+            app:destination="@id/navigation_character_details"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/navigation_encyclopedia" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_character_details"
+        android:name="com.isep.roadtohogwarts.character.encyclopedia.CharacterDetails"
+        android:label="Encyclopedia"
+        tools:layout="@layout/fragment_character_details" />
 
     <fragment
         android:id="@+id/navigation_quiz_start"
@@ -42,5 +59,11 @@
     <fragment
         android:id="@+id/navigation_quiz_ended"
         android:name="com.isep.roadtohogwarts.character.quiz.QuizFinishedFragment"
-        tools:layout="@layout/fragment_quiz_finished" />
+        tools:layout="@layout/fragment_quiz_finished" >
+        <action
+            android:id="@+id/action_navigation_quiz_ended_to_navigation_quiz_start"
+            app:destination="@id/navigation_quiz_start"
+            app:popUpTo="@id/navigation_quiz_start"
+            />
+    </fragment>
 </navigation>

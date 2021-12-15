@@ -41,7 +41,7 @@ public class QuizStartFragment extends Fragment {
         Button button = inputFragmentView.findViewById(R.id.startQuizButton);
 
         TextView textView =  inputFragmentView.findViewById(R.id.introductionTextView);
-        textView.setText("How much do you know about HP characters ?");
+        textView.setText("How much do you know about spells ?");
 
 
 
