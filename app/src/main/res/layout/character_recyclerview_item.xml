@@ -25,17 +25,17 @@
         <ImageView
             android:id="@+id/characterCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:background="@color/blue"
             android:src="@drawable/noimage"
 
             />
         <TextView
             android:id="@+id/characterName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAlignment="center"
+            android:layout_height="50dp"
+            android:gravity="center"
             android:textColor="@color/white"
             android:background="@color/blue"
 
