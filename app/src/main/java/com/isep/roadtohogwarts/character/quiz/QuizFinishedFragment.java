@@ -23,7 +23,6 @@ public class QuizFinishedFragment extends Fragment {
     public QuizFinishedFragment() {
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,22 +36,18 @@ public class QuizFinishedFragment extends Fragment {
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
-                categoryTextView.setText("Spells");
+                categoryTextView.setText("Characters");
                 scoreResultTextView.setText(score+"/10");
                 if(score<8){
                     scoreCommentTextView.setText(R.string.scoreComment);
-
                 }
                 else{
                     scoreCommentTextView.setText(R.string.congrats);
-
                 }
                 Button restartButton = inputView.findViewById(R.id.restartQuizButton);
                 restartButton.setOnClickListener(view -> {
                     try {
                         Navigation.findNavController(view).navigateUp();
-
-
                     }
                     catch (Exception e){
                         Log.d("TAG", "onClick: "+e);
@@ -66,7 +61,6 @@ public class QuizFinishedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         inputView = inflater.inflate(R.layout.fragment_quiz_finished, container, false);
-
 
         return inputView;
     }

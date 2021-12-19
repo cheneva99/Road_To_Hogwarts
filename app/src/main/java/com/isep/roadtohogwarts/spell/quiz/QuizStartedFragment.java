@@ -53,24 +53,20 @@ public class QuizStartedFragment extends Fragment {
     public QuizStartedFragment(){
 
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
-
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         inputFragmentView = inflater.inflate(layout.fragment_quiz, container, false);
         spellList=new ArrayList<>();
-         answer1RadioButton = inputFragmentView.findViewById(id.answer1);
-         answer2RadioButton = inputFragmentView.findViewById(id.answer2);
-         answer3RadioButton = inputFragmentView.findViewById(id.answer3);
+        answer1RadioButton = inputFragmentView.findViewById(id.answer1);
+        answer2RadioButton = inputFragmentView.findViewById(id.answer2);
+        answer3RadioButton = inputFragmentView.findViewById(id.answer3);
         checkedRadioId =-1;
         queue= Volley.newRequestQueue(container.getContext());
         Button button = inputFragmentView.findViewById(id.submitButton);
@@ -78,7 +74,6 @@ public class QuizStartedFragment extends Fragment {
         callApi("spells");
 
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case id.answer1:
                     checkedRadioId = 0;
@@ -90,10 +85,7 @@ public class QuizStartedFragment extends Fragment {
                     checkedRadioId = 2;
                     break;
             }
-
-
         });
-
 
         button.setOnClickListener(new View.OnClickListener() {
             TextView errorTextView = inputFragmentView.findViewById(id.errorTextView);
@@ -103,39 +95,31 @@ public class QuizStartedFragment extends Fragment {
                     if (checkedRadioId == quiz.getCurrentQuestion().getCorrectAnswer()) {
                         quiz.addPoints();
                     }
-
-                   radioGroup.clearCheck();
+                    radioGroup.clearCheck();
                     checkedRadioId=-1;
 
                     quiz.nextQuestion();
                     setQuestionView(quiz);
-
-
                 }
                 else if(checkedRadioId==-1){
                     errorTextView.setVisibility(View.VISIBLE);
-
                 }
                 else if(quiz.getQuestionNumber() == 10){
+                    if (checkedRadioId == quiz.getCurrentQuestion().getCorrectAnswer()) {
+                        quiz.addPoints();
+                    }
                     try {
-
                         Bundle result = new Bundle();
                         result.putInt("score", quiz.getScore());
                         getParentFragmentManager().setFragmentResult("score", result);
-
-
-                     Navigation.findNavController(v).navigate(id.action_quiz_ended);
-
+                        Navigation.findNavController(v).navigate(id.action_quiz_ended);
                     }
                     catch (Exception e){
                         Log.d("TAG", "onClick: "+e);
                     }
                 }
             }
-
         });
-
-
         return inputFragmentView;
     }
 
