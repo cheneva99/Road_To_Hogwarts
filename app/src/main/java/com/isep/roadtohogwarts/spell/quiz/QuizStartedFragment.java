@@ -25,6 +25,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.isep.roadtohogwarts.Character;
 import com.isep.roadtohogwarts.Potion;
 import com.isep.roadtohogwarts.R;
 import com.isep.roadtohogwarts.Spell;
@@ -275,6 +276,5 @@ public class QuizStartedFragment extends Fragment {
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
     }
-
 }
 

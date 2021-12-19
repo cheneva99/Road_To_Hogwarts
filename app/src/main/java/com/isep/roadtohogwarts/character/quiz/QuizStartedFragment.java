@@ -186,6 +186,8 @@ public class QuizStartedFragment extends Fragment {
         List<String> houseTypes = new ArrayList<>();
 
         while (quizCharactersChoices.size() < 3) {
+
+            //Size of the character list
             int randomNumber = random.nextInt(characterList.size() - 1);
 
             if (!characterList.get(randomNumber).getHouse().equals("")) {
@@ -239,6 +241,5 @@ public class QuizStartedFragment extends Fragment {
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
     }
-
 }
 
