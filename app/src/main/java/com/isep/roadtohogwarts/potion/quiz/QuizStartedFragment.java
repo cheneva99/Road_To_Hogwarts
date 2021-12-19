@@ -51,18 +51,17 @@ public class QuizStartedFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
     }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         inputFragmentView = inflater.inflate(layout.fragment_quiz, container, false);
         potionList=new ArrayList<>();
-         answer1RadioButton = inputFragmentView.findViewById(R.id.answer1);
-         answer2RadioButton = inputFragmentView.findViewById(R.id.answer2);
-         answer3RadioButton = inputFragmentView.findViewById(R.id.answer3);
+        answer1RadioButton = inputFragmentView.findViewById(R.id.answer1);
+        answer2RadioButton = inputFragmentView.findViewById(R.id.answer2);
+        answer3RadioButton = inputFragmentView.findViewById(R.id.answer3);
         checkedRadioId =-1;
         queue= Volley.newRequestQueue(container.getContext());
         Button button = inputFragmentView.findViewById(R.id.submitButton);
@@ -91,33 +90,30 @@ public class QuizStartedFragment extends Fragment {
                     if (checkedRadioId == quiz.getCurrentQuestion().getCorrectAnswer()) {
                         quiz.addPoints();
                     }
-
-                   radioGroup.clearCheck();
+                    radioGroup.clearCheck();
                     checkedRadioId=-1;
 
                     quiz.nextQuestion();
                     setQuestionView(quiz);
-
                 }
                 else if(checkedRadioId==-1){
                     errorTextView.setVisibility(View.VISIBLE);
-
                 }
                 else if(quiz.getQuestionNumber() == 10){
+                    if (checkedRadioId == quiz.getCurrentQuestion().getCorrectAnswer()) {
+                        quiz.addPoints();
+                    }
                     try {
-
                         Bundle result = new Bundle();
                         result.putInt("score", quiz.getScore());
                         getParentFragmentManager().setFragmentResult("score", result);
                         Navigation.findNavController(v).navigate(id.action_quiz_ended);
-
                     }
                     catch (Exception e){
                         Log.d("TAG", "onClick: "+e);
                     }
                 }
             }
-
         });
         return inputFragmentView;
     }
@@ -136,12 +132,9 @@ public class QuizStartedFragment extends Fragment {
                     try{
                         JSONArray jsonArray = new JSONArray(response);
 
-
                         for (int i = 0; i < jsonArray.length(); i++) {
                             Potion potion = new Potion(jsonArray.getJSONObject(i));
-
                             potionList.add(potion);
-
                         }
                         generateQuestion();
                         setQuestionView(quiz);
@@ -176,22 +169,16 @@ public class QuizStartedFragment extends Fragment {
                         quizPotionsChoices.add(potionList.get(randomNumber));
                     }
                 }
-
             }
             int answerRandomNumber = random.nextInt(3 - 1);
             Question question = new Question(quizPotionsChoices.get(answerRandomNumber).getDescription(),quizPotionsChoices.get(0).getName(),quizPotionsChoices.get(1).getName(),quizPotionsChoices.get(2).getName(),answerRandomNumber);
             questionList.add(question);
             questionAsked.add(potionList.get(answerRandomNumber));
-
-
         }
         quiz = new Quiz(questionList);
     }
 
-
-
     public void setQuestionView(Quiz quiz){
-
         TextView questionNumberTextView =inputFragmentView.findViewById(R.id.questionNumberTextView);
         TextView categoryTextView =inputFragmentView.findViewById(R.id.categoryTextView);
         TextView questionTextView =inputFragmentView.findViewById(R.id.questionTextView);
@@ -204,9 +191,6 @@ public class QuizStartedFragment extends Fragment {
         answer2RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer2());
         answer3RadioButton.setText(quiz.getQuestionList().get(quiz.getQuestionNumber()-1).getAnswer3());
     }
-
-
-
 
 }
 
