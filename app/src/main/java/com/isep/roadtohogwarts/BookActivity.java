@@ -48,22 +48,10 @@ public class BookActivity extends AppCompatActivity  {
         callApi("books");
 
     }
-
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar_items, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()) {
-            case R.id.action_home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
 
     public void callApi(String fragment){
         String myUrl = String.format("https://the-harry-potter-database.herokuapp.com/api/1/%1$s/all",
@@ -78,16 +66,8 @@ public class BookActivity extends AppCompatActivity  {
 
 
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                 Book book = new Book(jsonArray.getJSONObject(i));
-
+                                Book book = new Book(jsonArray.getJSONObject(i));
                                 library.add(book);
-
-
-                                Log.d(TAG, book.getAuthor());
-                               Log.d(TAG, "ds"+library.get(i).getTitle());
-                           //  Log.d(TAG, "ds"+books.getBookCovers().get(0).getUrl());
-                             Log.d(TAG, "ds"+jsonArray.getJSONObject(i).getJSONArray("book_covers").getJSONObject(0));
-                            Log.d(TAG, "ds"+ book.getPublishingDateUK());
                             }
                             recyclerView.setAdapter(bookRecyclerAdapter);
                             bookRecyclerAdapter.notifyDataSetChanged();
