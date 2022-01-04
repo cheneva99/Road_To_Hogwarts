@@ -47,7 +47,6 @@ public class BookActivity extends AppCompatActivity  {
         queue= Volley.newRequestQueue(BookActivity.this);
         callApi("books");
 
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,12 +92,6 @@ public class BookActivity extends AppCompatActivity  {
                             recyclerView.setAdapter(bookRecyclerAdapter);
                             bookRecyclerAdapter.notifyDataSetChanged();
 
-
-
-
-
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -106,7 +99,7 @@ public class BookActivity extends AppCompatActivity  {
                     }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error at sign in : " + error.getMessage());
+                Log.e(TAG, "Api call error: " + error.getMessage());
             }
         });
         int socketTimeout = 30000;

@@ -13,7 +13,7 @@ public class Potion {
             this.name = potionsJson.getString("name");
             this.description=potionsJson.getString("description");
         }catch(Exception err){
-
+            err.printStackTrace();
         }
     }
 

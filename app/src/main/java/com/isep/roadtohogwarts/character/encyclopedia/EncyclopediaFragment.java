@@ -3,7 +3,6 @@ package com.isep.roadtohogwarts.character.encyclopedia;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -32,6 +30,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.isep.roadtohogwarts.Character;
 import com.isep.roadtohogwarts.R;
+import com.isep.roadtohogwarts.character.CharactersStatus;
+import com.isep.roadtohogwarts.character.Houses;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,11 +66,8 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         inputFragmentView = inflater.inflate(R.layout.fragment_characters_encyclopedia, container, false);
-
-
         characterList = new ArrayList<>();
         recyclerView = (RecyclerView) inputFragmentView.findViewById(R.id.recyclerview);
-
         characterRecyclerAdapter = new CharacterRecyclerAdapter(characterList, this);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -108,18 +105,13 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                     for (Character character : characterList) {
 
                         if (character.getName().toLowerCase().contains(s.toString().toLowerCase())) {
-
                             searchedCharacters.add(character);
-
-
                         }
                     }
                     updateRecyclerViewData(searchedCharacters);
 
                 } else {
                     updateRecyclerViewData(characterList);
-
-
                 }
             }
         });
@@ -181,7 +173,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
         myRequest.setRetryPolicy(retryPolicy);
         queue.add(myRequest);
 
-
     }
 
     public void onItemClick(int position) {
@@ -199,12 +190,13 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
         List<String> houseType = new ArrayList<>();
         houseType.add("All houses");
-        houseType.add("Gryffindor");
-        houseType.add("Hufflepuff");
-        houseType.add("Ravenclaw");
-        houseType.add("Slytherin");
         houseType.add("No house");
 
+        for (Houses house: Houses.values())
+        {
+            houseType.add(house.toString());
+
+        }
         Spinner spinner = inputFragmentView.findViewById(R.id.filterHouse);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 R.layout.custom_spinner, houseType);
@@ -217,11 +209,8 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                 String filterType = (String) parent.getItemAtPosition(pos);
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 parent.getChildAt(0).setBackgroundColor(ContextCompat.getColor(getContext(), R.color.purple_100));
-
                 houseFilterType = filterType;
                 updateCharacterList();
-
-
             }
 
             @Override
@@ -242,7 +231,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
         });
         Collections.sort(houseList, String.CASE_INSENSITIVE_ORDER);
         houseList.add("No house");
-        Log.d("TAG", "getAllHouses: "+houseList);
     }
 
     private boolean containsCaseInsensitive(List<String> typeList, String type) {
@@ -266,11 +254,11 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                 if (character.getHouse().equalsIgnoreCase(filterType)) {
                     newcharacterList.add(character);
                 }
-                else if(filterType.equals("Hufflepuff") && character.getHouse().equalsIgnoreCase("Huffleluff")){
+                else if(filterType.equals(Houses.Hufflepuff.toString()) && character.getHouse().equalsIgnoreCase("Huffleluff")){
                     newcharacterList.add(character);
 
                 }
-                else if(filterType.equals("Slytherin") && character.getHouse().equalsIgnoreCase("Slythetin")){
+                else if(filterType.equals(Houses.Slytherin.toString()) && character.getHouse().equalsIgnoreCase("Slythetin")){
                     newcharacterList.add(character);
 
                 }
@@ -282,37 +270,33 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
 
     private void getFilteredStatusRecyclerViewData(List<Character> characterList, String filterType) {
-
-
-
         statusFilterType = filterType;
         List<Character> newcharacterList = new ArrayList<>();
 
         characterList.forEach(character -> {
 
-            if(filterType.equals("Student")&& character.isStudent()){
+            if(filterType.equals(CharactersStatus.Student.toString())&& character.isStudent()){
                 newcharacterList.add(character);
 
-            }else if(filterType.equals("Staff")&& character.isStaff()){
+            }else if(filterType.equals(CharactersStatus.Staff.toString())&& character.isStaff()){
                 newcharacterList.add(character);
 
-            }else if(filterType.equals("Other") && !character.isStaff() && !character.isStudent())
+            }else if(filterType.equals(CharactersStatus.Other.toString()) && !character.isStaff() && !character.isStudent())
            {
                 newcharacterList.add(character);
             }
         });
         filteredCharacterList =  newcharacterList;
-
-
-
     }
 
     private void setFilterStatus(View inputFragmentView) {
         List<String> statusType = new ArrayList<>();
-        statusType.add("All");
-        statusType.add("Student");
-        statusType.add("Staff");
-        statusType.add("Other");
+
+        for (CharactersStatus characterStatus: CharactersStatus.values())
+        {
+            statusType.add(characterStatus.toString());
+
+        }
 
         Spinner spinner = inputFragmentView.findViewById(R.id.filterStatus);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
@@ -333,7 +317,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                // TODO Auto-generated method stub
 
             }
         });
@@ -343,9 +326,7 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
         filteredCharacterList = characterList;
         clearButton.setVisibility(View.VISIBLE);
 
-       if(!houseFilterType.equals("All houses")&&!statusFilterType.equals("All")) {
-
-           Log.d("TAG", "updateCharacterList: "+"o ou o");
+       if(!houseFilterType.equals("All houses")&&!statusFilterType.equals(CharactersStatus.All.toString())) {
 
             getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);
 
@@ -353,15 +334,13 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
 
         }
-            else if(!houseFilterType.equals("All houses")||!statusFilterType.equals("All")) {
-           Log.d("TAG", "updateCharacterList: "+"o ou o");
+            else if(!houseFilterType.equals("All houses")||!statusFilterType.equals(CharactersStatus.All.toString())) {
            if (!houseFilterType.equals("All houses")) {
 
                getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);
 
            }
-           if (!statusFilterType.equals("All")) {
-               List<Character> newcharacterList = new ArrayList<>();
+           if (!statusFilterType.equals(CharactersStatus.All.toString())) {
 
                getFilteredStatusRecyclerViewData(filteredCharacterList, statusFilterType);
            }
@@ -379,14 +358,11 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     }
 
     public void onClearButtonClick(View v){
-      statusFilterType="All";
+      statusFilterType=CharactersStatus.All.toString();
       houseFilterType="All houses";
       updateCharacterList();
       setFilterHouse(inputFragmentView);
       setFilterStatus(inputFragmentView);
-
-
-
 
     }
 }

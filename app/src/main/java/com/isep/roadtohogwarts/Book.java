@@ -18,17 +18,12 @@ public class Book {
             this.author = book.getString("author");
             this.title = book.getString("title");
             this.publishingDateUK = book.getJSONArray("publish_date").getJSONObject(0).getString("UK");
-
-
-
             this.url =book.getJSONArray("book_covers").getJSONObject(0).getString("URL");
-
-
             this.url=url.replace("\\","");
 
 
-        }catch (Exception e){
-            Log.d("te", "Books: "+e);
+        }catch (Exception err){
+            err.printStackTrace();
         }
 
     }

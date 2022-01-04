@@ -16,7 +16,7 @@ public class Spell {
             this.type = spellJson.getString("spell_type");
             this.description = spellJson.getString("description");
         }catch(Exception err){
-
+            err.printStackTrace();
         }
     }
 
