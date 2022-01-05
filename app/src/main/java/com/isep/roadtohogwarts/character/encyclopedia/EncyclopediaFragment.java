@@ -7,9 +7,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -31,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class EncyclopediaFragment extends Fragment implements CharacterRecyclerAdapter.OnItemListener {
@@ -38,29 +45,45 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     private View inputFragmentView;
     private RequestQueue queue;
     private List<Character> characterList;
+    private List<Character> filteredCharacterList;
+
     RecyclerView recyclerView;
-   CharacterRecyclerAdapter characterRecyclerAdapter;
+    CharacterRecyclerAdapter characterRecyclerAdapter;
     EditText searchBar;
+    private ArrayList<String> houseList;
+    private String houseFilterType;
+    private String statusFilterType;
+    private Button clearButton;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         inputFragmentView = inflater.inflate(R.layout.fragment_characters_encyclopedia, container, false);
 
 
-        characterList=new ArrayList<>();
+        characterList = new ArrayList<>();
         recyclerView = (RecyclerView) inputFragmentView.findViewById(R.id.recyclerview);
 
-        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList,this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(),2);
+        characterRecyclerAdapter = new CharacterRecyclerAdapter(characterList, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        queue= Volley.newRequestQueue(container.getContext());
-        searchBar = (EditText)inputFragmentView.findViewById(R.id.searchEditText);
+        queue = Volley.newRequestQueue(container.getContext());
+        searchBar = (EditText) inputFragmentView.findViewById(R.id.searchEditText);
+        clearButton = inputFragmentView.findViewById(R.id.clearButton);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClearButtonClick(view);
+            }
+        });
+
 
         searchBar.addTextChangedListener(new TextWatcher() {
             List<Character> searchedCharacters = new ArrayList<>();
@@ -81,7 +104,7 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 searchedCharacters.clear();
-                if(s.length() != 0){
+                if (s.length() != 0) {
                     for (Character character : characterList) {
 
                         if (character.getName().toLowerCase().contains(s.toString().toLowerCase())) {
@@ -89,16 +112,12 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                             searchedCharacters.add(character);
 
 
-                        }else if(character.getHouse().toLowerCase().contains(s.toString().toLowerCase())){
-                            searchedCharacters.add(character);
                         }
                     }
-                   updateRecyclerViewData(searchedCharacters);
+                    updateRecyclerViewData(searchedCharacters);
 
-                }
-                else{
+                } else {
                     updateRecyclerViewData(characterList);
-
 
 
                 }
@@ -109,19 +128,17 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     }
 
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
 
-    public void updateRecyclerViewData(List<Character> characterList){
-        characterRecyclerAdapter= new CharacterRecyclerAdapter(characterList,this);
+    public void updateRecyclerViewData(List<Character> characterList) {
+        characterRecyclerAdapter = new CharacterRecyclerAdapter(characterList, this);
         recyclerView.setAdapter(characterRecyclerAdapter);
     }
 
-    public void callApi(){
+    public void callApi() {
 
         String myUrl = "https://hp-api.herokuapp.com/api/characters";
 
@@ -129,7 +146,7 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
+                        try {
                             JSONArray jsonArray = new JSONArray(response);
 
 
@@ -140,17 +157,23 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
                             }
                             recyclerView.setHasFixedSize(true);
+                            houseFilterType = "All houses";
+                            statusFilterType="All";
+                            updateRecyclerViewData(characterList);
 
-                           updateRecyclerViewData(characterList);
+
+                            setFilterHouse(inputFragmentView);
+                            setFilterStatus(inputFragmentView);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                    }}, new Response.ErrorListener() {
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-              //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+                //  Log.e(TAG, "Error at sign in : " + error.getMessage());
             }
         });
         int socketTimeout = 30000;
@@ -159,22 +182,211 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
         queue.add(myRequest);
 
 
-
     }
+
     public void onItemClick(int position) {
-        Log.d("TAG", "onItemClick: "+"OUI");
         Bundle result = new Bundle();
         result.putInt("position", position);
         getParentFragmentManager().setFragmentResult("position", result);
 
 
         Navigation.findNavController(this.getView()).navigate(R.id.action_goto_character_details);
-
-        //Navigation.findNavController(v).navigate(R.id.action_quiz_ended);
-
     }
 
 
+    private void setFilterHouse(View inputFragmentView) {
+        getAllHouses();
+
+        List<String> houseType = new ArrayList<>();
+        houseType.add("All houses");
+        houseType.add("Gryffindor");
+        houseType.add("Hufflepuff");
+        houseType.add("Ravenclaw");
+        houseType.add("Slytherin");
+        houseType.add("No house");
+
+        Spinner spinner = inputFragmentView.findViewById(R.id.filterHouse);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.custom_spinner, houseType);
+        adapter.setDropDownViewResource(R.layout.custom_spinner);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long id) {
+                String filterType = (String) parent.getItemAtPosition(pos);
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                parent.getChildAt(0).setBackgroundColor(ContextCompat.getColor(getContext(), R.color.purple_100));
+
+                houseFilterType = filterType;
+                updateCharacterList();
 
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    private void getAllHouses() {
+        houseList = new ArrayList<>();
+        houseList.add("All houses");
+        characterList.forEach(character -> {
+            if (!containsCaseInsensitive(houseList, character.getHouse()) && !character.getHouse().equals("")) {
+                houseList.add(character.getHouse());
+            }
+        });
+        Collections.sort(houseList, String.CASE_INSENSITIVE_ORDER);
+        houseList.add("No house");
+        Log.d("TAG", "getAllHouses: "+houseList);
+    }
+
+    private boolean containsCaseInsensitive(List<String> typeList, String type) {
+        return typeList.stream().anyMatch(x -> x.equalsIgnoreCase(type));
+    }
+
+    private void getFilteredRecyclerViewData(List<Character> characterList, String filterType) {
+        List<Character> newcharacterList = new ArrayList<>();
+
+        houseFilterType = filterType;
+         if(filterType.equals("No house")){
+             characterList.forEach(character -> {
+                if (character.getHouse().equalsIgnoreCase("")) {
+                    newcharacterList.add(character);
+                }
+            });
+        }
+        else {
+
+             characterList.forEach(character -> {
+                if (character.getHouse().equalsIgnoreCase(filterType)) {
+                    newcharacterList.add(character);
+                }
+                else if(filterType.equals("Hufflepuff") && character.getHouse().equalsIgnoreCase("Huffleluff")){
+                    newcharacterList.add(character);
+
+                }
+                else if(filterType.equals("Slytherin") && character.getHouse().equalsIgnoreCase("Slythetin")){
+                    newcharacterList.add(character);
+
+                }
+            });
+        }
+
+        filteredCharacterList =  newcharacterList;
+    }
+
+
+    private void getFilteredStatusRecyclerViewData(List<Character> characterList, String filterType) {
+
+
+
+        statusFilterType = filterType;
+        List<Character> newcharacterList = new ArrayList<>();
+
+        characterList.forEach(character -> {
+
+            if(filterType.equals("Student")&& character.isStudent()){
+                newcharacterList.add(character);
+
+            }else if(filterType.equals("Staff")&& character.isStaff()){
+                newcharacterList.add(character);
+
+            }else if(filterType.equals("Other") && !character.isStaff() && !character.isStudent())
+           {
+                newcharacterList.add(character);
+            }
+        });
+        filteredCharacterList =  newcharacterList;
+
+
+
+    }
+
+    private void setFilterStatus(View inputFragmentView) {
+        List<String> statusType = new ArrayList<>();
+        statusType.add("All");
+        statusType.add("Student");
+        statusType.add("Staff");
+        statusType.add("Other");
+
+        Spinner spinner = inputFragmentView.findViewById(R.id.filterStatus);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                R.layout.custom_spinner, statusType);
+        adapter.setDropDownViewResource(R.layout.custom_spinner);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View arg1, int pos, long id) {
+                String filterType = (String) parent.getItemAtPosition(pos);
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                parent.getChildAt(0).setBackgroundColor(ContextCompat.getColor(getContext(), R.color.purple_100));
+
+              statusFilterType = filterType;
+              updateCharacterList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+    }
+
+    public void updateCharacterList(){
+        filteredCharacterList = characterList;
+        clearButton.setVisibility(View.VISIBLE);
+
+       if(!houseFilterType.equals("All houses")&&!statusFilterType.equals("All")) {
+
+           Log.d("TAG", "updateCharacterList: "+"o ou o");
+
+            getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);
+
+            getFilteredStatusRecyclerViewData(filteredCharacterList, statusFilterType);
+
+
+        }
+            else if(!houseFilterType.equals("All houses")||!statusFilterType.equals("All")) {
+           Log.d("TAG", "updateCharacterList: "+"o ou o");
+           if (!houseFilterType.equals("All houses")) {
+
+               getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);
+
+           }
+           if (!statusFilterType.equals("All")) {
+               List<Character> newcharacterList = new ArrayList<>();
+
+               getFilteredStatusRecyclerViewData(filteredCharacterList, statusFilterType);
+           }
+
+       }
+        else {
+           clearButton.setVisibility(View.INVISIBLE);
+
+           filteredCharacterList = characterList;
+        }
+        updateRecyclerViewData(filteredCharacterList);
+
+
+
+    }
+
+    public void onClearButtonClick(View v){
+      statusFilterType="All";
+      houseFilterType="All houses";
+      updateCharacterList();
+      setFilterHouse(inputFragmentView);
+      setFilterStatus(inputFragmentView);
+
+
+
+
+    }
 }
