@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,8 @@ public class QuizStartFragment extends Fragment {
 
         TextView textView =  inputFragmentView.findViewById(R.id.introductionTextView);
         textView.setText("How much do you know about spells ?");
+        ImageView imageView = inputFragmentView.findViewById(R.id.quizStartImage);
+        imageView.setImageResource(R.drawable.spells);
 
 
 
