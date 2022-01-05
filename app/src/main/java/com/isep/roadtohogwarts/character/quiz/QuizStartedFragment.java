@@ -28,15 +28,12 @@ import com.android.volley.toolbox.Volley;
 import com.isep.roadtohogwarts.Character;
 import com.isep.roadtohogwarts.Question;
 import com.isep.roadtohogwarts.Quiz;
-import com.isep.roadtohogwarts.R;
-import com.isep.roadtohogwarts.Spell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 
@@ -189,12 +186,18 @@ public class QuizStartedFragment extends Fragment {
 
             //Size of the character list
             int randomNumber = random.nextInt(characterList.size() - 1);
+            Character randomCharacter = characterList.get(randomNumber);
 
-            if (!characterList.get(randomNumber).getHouse().equals("")) {
-                if (!quizCharactersChoices.contains(characterList.get(randomNumber)) || !characterList.contains(characterList.get(randomNumber))) {
-                    if (!houseTypes.contains(characterList.get(randomNumber).getHouse())) {
-                        quizCharactersChoices.add(characterList.get(randomNumber));
-                        houseTypes.add(characterList.get(randomNumber).getHouse());
+            if (!randomCharacter.getHouse().equals("")) {
+                if (!quizCharactersChoices.contains(randomCharacter) || !characterList.contains(randomCharacter)) {
+                    if (!houseTypes.contains(randomCharacter.getHouse())) {
+                        if (randomCharacter.getHouse() == "Huffleluff") {
+                            randomCharacter.setHouse("Hufflepuff");
+                        } else if (randomCharacter.getHouse() == "Slythetin") {
+                            randomCharacter.setHouse("Slytherin");
+                        }
+                        quizCharactersChoices.add(randomCharacter);
+                        houseTypes.add(randomCharacter.getHouse());
                     }
                 }
             }
@@ -208,13 +211,18 @@ public class QuizStartedFragment extends Fragment {
     public Question generatePatronusQuestion(int answerRandomNumber){
         List<Character> quizCharactersChoices = new ArrayList<>();
         Random random = new Random();
+        List<String> patronusTypes = new ArrayList<>();
 
         while (quizCharactersChoices.size() < 3) {
             int randomNumber = random.nextInt(characterList.size() - 1);
+            Character randomCharacter = characterList.get(randomNumber);
 
-            if (!characterList.get(randomNumber).getPatronus().equals("")) {
-                if (!quizCharactersChoices.contains(characterList.get(randomNumber)) || !characterList.contains(characterList.get(randomNumber)) ) {
-                        quizCharactersChoices.add(characterList.get(randomNumber));
+            if (!randomCharacter.getPatronus().equals("")) {
+                if (!quizCharactersChoices.contains(randomCharacter) || !characterList.contains(randomCharacter) ) {
+                    if (!patronusTypes.contains(randomCharacter.getPatronus())) {
+                        quizCharactersChoices.add(randomCharacter);
+                        patronusTypes.add(randomCharacter.getPatronus());
+                    }
                 }
             }
         }
