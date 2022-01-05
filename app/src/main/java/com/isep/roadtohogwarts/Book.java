@@ -28,7 +28,7 @@ public class Book {
 
 
         }catch (Exception e){
-            Log.d("te", "Books: "+e);
+            e.printStackTrace();
         }
 
     }

@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 public class SplashScreenActivity extends AppCompatActivity {
-    private final int displayLength = 1000;
+    private final int displayLength = 800;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,8 +19,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                 SplashScreenActivity.this.finish();
             }
         }, displayLength);
-        /*
-        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-        finish();*/
+
     }
 }

@@ -40,25 +40,15 @@ public class Character {
         return student;
     }
 
-    public void setStudent(boolean student) {
-        this.student = student;
-    }
 
     public boolean isStaff() {
         return staff;
-    }
-
-    public void setStaff(boolean staff) {
-        this.staff = staff;
     }
 
     public String getSpecies() {
         return species;
     }
 
-    public void setSpecies(String species) {
-        this.species = species;
-    }
 
     public String getHouse() {
         return house;
@@ -72,23 +62,13 @@ public class Character {
         return actorName;
     }
 
-    public void setActorName(String actorName) {
-        this.actorName = actorName;
-    }
 
     public String getPatronus() {
         return patronus;
-    }
-
-    public void setPatronus(String patronus) {
-        this.patronus = patronus;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

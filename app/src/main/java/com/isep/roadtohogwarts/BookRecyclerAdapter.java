@@ -16,13 +16,9 @@ import java.util.List;
 
 public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapter.ViewHolder>  {
 
-
     List<Book> books;
-
-
     public BookRecyclerAdapter(List<Book> books ) {
         this.books = books;
-
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,9 +57,7 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
             Picasso.get().load(url).into(holder.bookCover);
 
         }catch(Exception e){
-
-
-
+            e.printStackTrace();
         }
 
 
