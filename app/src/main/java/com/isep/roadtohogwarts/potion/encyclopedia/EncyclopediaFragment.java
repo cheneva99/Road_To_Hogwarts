@@ -3,6 +3,7 @@ package com.isep.roadtohogwarts.potion.encyclopedia;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,7 +148,7 @@ public class EncyclopediaFragment extends Fragment {
                     }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-              //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+                Log.e("Volley error", "Error at sign in : " + error.getMessage());
             }
         });
         int socketTimeout = 30000;

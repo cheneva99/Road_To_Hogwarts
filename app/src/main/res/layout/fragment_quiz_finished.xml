@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/gifImageView"
-            android:paddingLeft="20dp"
+            android:paddingLeft="10dp"
             android:paddingTop="40dp"/>
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:paddingTop="60dp"
+            android:paddingTop="40dp"
             android:paddingBottom="20dp"
             android:textAlignment="center"/>
         <TextView
@@ -41,7 +41,7 @@
             android:text="@string/score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="60dp"
+            android:paddingBottom="20dp"
             />
         <TextView
             android:id="@+id/scoreResultTextView"

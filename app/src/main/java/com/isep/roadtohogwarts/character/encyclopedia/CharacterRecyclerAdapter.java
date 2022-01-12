@@ -15,11 +15,12 @@ import com.isep.roadtohogwarts.OnItemListener;
 import com.isep.roadtohogwarts.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecyclerAdapter.ViewHolder>  {
 
-    private List<Character> characters;
+    private List<Character> characters, filteredCharacters;
     private OnItemListener onItemListener;
 
 
@@ -27,7 +28,8 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
     public CharacterRecyclerAdapter(List<Character> characters,OnItemListener onItemListener) {
         this.characters = characters;
         this.onItemListener= onItemListener;
-
+        this.filteredCharacters = new ArrayList<>();
+        this.filteredCharacters.addAll(this.characters);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -63,9 +65,9 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
 
     @Override
     public void onBindViewHolder(@NonNull CharacterRecyclerAdapter.ViewHolder holder, int position) {
-        holder.characterName.setText( characters.get(position).getName());
+        holder.characterName.setText(filteredCharacters.get(position).getName());
         try {
-            String url = characters.get(position).getImageUrl();
+            String url = filteredCharacters.get(position).getImageUrl();
             if(!url.equals("")) {
 
                 Picasso.get().load(url).resize(150,200).into(holder.characterCard);
@@ -76,10 +78,18 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
 
         }catch(Exception e){
             Log.d("image", "onBindViewHolder: "+e);
-
-
-
         }
+    }
+
+
+    public Character getItem(int position) {
+        return filteredCharacters.get(position);
+    }
+
+    public void setFilteredCharacters(List<Character> fCharacters) {
+        filteredCharacters = new ArrayList<>();
+        filteredCharacters.addAll(fCharacters);
+        notifyDataSetChanged();
     }
 
     @Override

@@ -25,19 +25,13 @@ public class QuizStartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
-
         View inputFragmentView = inflater.inflate(R.layout.fragment_quiz_start, container, false);
-
 
         Button button = inputFragmentView.findViewById(R.id.startQuizButton);
 
@@ -48,7 +42,6 @@ public class QuizStartFragment extends Fragment {
 
 
         button.setOnClickListener(view -> {
-            Log.d("Test", "onClickListener ist gestartet");
 
             try {
                Navigation.findNavController(view).navigate(R.id.action_quiz_started);
@@ -57,13 +50,10 @@ public class QuizStartFragment extends Fragment {
             catch (Exception e){
                 Log.d("TAG", "onClick: "+e);
             }
-
-
         });
 
         return inputFragmentView;
     }
-
 
     @Override
     public void onDestroyView() {

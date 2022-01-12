@@ -42,8 +42,6 @@ public class PotionRecyclerAdapter extends RecyclerView.Adapter<PotionRecyclerAd
                 .inflate(R.layout.potion_recyclerview_item,parent,false);
 
         return new PotionRecyclerAdapter.ViewHolder(view);
-
-
     }
 
     @Override

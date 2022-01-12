@@ -145,8 +145,6 @@ public class QuizStartedFragment extends Fragment {
                                 spellList.add(spell);
 
                             }
-
-
                         }
 
                         generateQuestion();
@@ -159,7 +157,7 @@ public class QuizStartedFragment extends Fragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+                Log.e("Volley error", "Error at sign in : " + error.getMessage());
             }
         });
         int socketTimeout = 30000;

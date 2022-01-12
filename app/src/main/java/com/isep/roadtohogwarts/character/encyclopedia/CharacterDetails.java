@@ -77,17 +77,6 @@ public class CharacterDetails extends Fragment  {
         return inputFragmentView;
     }
 
-   /* @Override
-    public void onStart() {
-
-        super.onStart();
-        queue = Volley.newRequestQueue(this.getContext());
-        callApi(characterName);
-
-    }*/
-
-
-
 
     @Override
     public void onDestroyView() {
@@ -108,7 +97,6 @@ public class CharacterDetails extends Fragment  {
 
 
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                //Log.d("characterDetails", "onResponse: "+ jsonArray.getJSONObject(i).getString("name"));
                                 if(jsonArray.getJSONObject(i).getString("name").equals(characterName)){
                                     currentCharacter = new Character(jsonArray.getJSONObject(i));
                                 }
@@ -130,16 +118,13 @@ public class CharacterDetails extends Fragment  {
                     }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+                Log.e("Volley error", "Error at sign in : " + error.getMessage());
             }
         });
         int socketTimeout = 30000;
         RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         myRequest.setRetryPolicy(retryPolicy);
         queue.add(myRequest);
-
-
-
     }
 
 public void setImage() {
@@ -147,7 +132,6 @@ public void setImage() {
         String url = currentCharacter.getImageUrl();
 
         if(!url.equals("") ) {
-            Log.d("characterImage", ""+ url );
             Picasso.get().load(url).resize(150,200).into(characterImage);
         }else{
             Picasso.get().load(R.drawable.background).resize(150,200).into(characterImage);

@@ -38,7 +38,6 @@ public class QuizFinishedFragment extends Fragment {
             @Override
             public void onFragmentResult( String requestKey, @NonNull Bundle bundle) {
                 score = bundle.getInt("score");
-                Log.d("TAG", "onFragmentResult: "+score);
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
@@ -73,8 +72,6 @@ public class QuizFinishedFragment extends Fragment {
                 restartButton.setOnClickListener(view -> {
                     try {
                         Navigation.findNavController(view).navigateUp();
-
-
                     }
                     catch (Exception e){
                         Log.d("TAG", "onClick: "+e);

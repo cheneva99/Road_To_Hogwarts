@@ -24,16 +24,12 @@ public class QuizStartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
 
 
         View inputFragmentView = inflater.inflate(R.layout.fragment_quiz_start, container, false);
@@ -47,8 +43,6 @@ public class QuizStartFragment extends Fragment {
         imageView.setImageResource(R.drawable.spells);
 
 
-
-
         button.setOnClickListener(view -> {
 
             try {
@@ -58,7 +52,6 @@ public class QuizStartFragment extends Fragment {
             catch (Exception e){
                 Log.d("TAG", "onClick: "+e);
             }
-
 
         });
 

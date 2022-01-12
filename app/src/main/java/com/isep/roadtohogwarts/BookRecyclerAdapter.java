@@ -43,8 +43,6 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
                 .inflate(R.layout.book_recyclerview_item,parent,false);
 
         return new ViewHolder(view);
-
-
     }
 
     @Override
@@ -59,16 +57,12 @@ public class BookRecyclerAdapter extends RecyclerView.Adapter<BookRecyclerAdapte
         }catch(Exception e){
             e.printStackTrace();
         }
-
-
     }
 
     @Override
     public int getItemCount() {
         return books.size();
     }
-
-
 }
 
 

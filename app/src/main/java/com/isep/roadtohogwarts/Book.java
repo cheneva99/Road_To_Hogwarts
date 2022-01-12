@@ -20,7 +20,6 @@ public class Book {
             this.publishingDateUK = book.getJSONArray("publish_date").getJSONObject(0).getString("UK");
 
 
-
             this.url =book.getJSONArray("book_covers").getJSONObject(0).getString("URL");
 
 

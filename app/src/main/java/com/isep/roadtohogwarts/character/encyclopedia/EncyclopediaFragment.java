@@ -59,7 +59,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -115,7 +114,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                         }
                     }
                     updateRecyclerViewData(searchedCharacters);
-
                 } else {
                     updateRecyclerViewData(characterList);
 
@@ -134,6 +132,7 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
     }
 
     public void updateRecyclerViewData(List<Character> characterList) {
+        characterRecyclerAdapter.setFilteredCharacters(characterList);
         characterRecyclerAdapter = new CharacterRecyclerAdapter(characterList, this);
         recyclerView.setAdapter(characterRecyclerAdapter);
     }
@@ -168,12 +167,11 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+                Log.e("Volley error", "Error at sign in : " + error.getMessage());
             }
         });
         int socketTimeout = 30000;
@@ -186,12 +184,9 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
     public void onItemClick(int position) {
         Bundle result = new Bundle();
-        result.putString("characterName", characterList.get(position).getName());
-        CharacterDetails characterDetails = new CharacterDetails();
-        characterDetails.setArguments(result);
-        //getParentFragmentManager().beginTransaction().add(this.inputFragmentView.getId(), characterDetails).commit();
+        Character fCharacter = characterRecyclerAdapter.getItem(position);
+        result.putString("characterName", fCharacter.getName());
         getParentFragmentManager().setFragmentResult("characterName", result);
-
 
         Navigation.findNavController(this.getView()).navigate(R.id.action_goto_character_details);
     }
@@ -245,7 +240,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
         });
         Collections.sort(houseList, String.CASE_INSENSITIVE_ORDER);
         houseList.add("No house");
-        Log.d("TAG", "getAllHouses: "+houseList);
     }
 
     private boolean containsCaseInsensitive(List<String> typeList, String type) {
@@ -305,9 +299,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
             }
         });
         filteredCharacterList =  newcharacterList;
-
-
-
     }
 
     private void setFilterStatus(View inputFragmentView) {
@@ -348,8 +339,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
         if(!houseFilterType.equals("All houses")&&!statusFilterType.equals("All")) {
 
-            Log.d("TAG", "updateCharacterList: "+"o ou o");
-
             getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);
 
             getFilteredStatusRecyclerViewData(filteredCharacterList, statusFilterType);
@@ -357,7 +346,6 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
 
         }
         else if(!houseFilterType.equals("All houses")||!statusFilterType.equals("All")) {
-            Log.d("TAG", "updateCharacterList: "+"o ou o");
             if (!houseFilterType.equals("All houses")) {
 
                 getFilteredRecyclerViewData(filteredCharacterList, houseFilterType);

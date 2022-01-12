@@ -46,8 +46,6 @@ public class BookActivity extends AppCompatActivity  {
         recyclerView.setHasFixedSize(true);
         queue= Volley.newRequestQueue(BookActivity.this);
         callApi("books");
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,7 +81,6 @@ public class BookActivity extends AppCompatActivity  {
                             }
                             recyclerView.setAdapter(bookRecyclerAdapter);
                             bookRecyclerAdapter.notifyDataSetChanged();
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
