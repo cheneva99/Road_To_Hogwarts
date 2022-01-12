@@ -263,14 +263,7 @@ public class EncyclopediaFragment extends Fragment implements CharacterRecyclerA
                 if (character.getHouse().equalsIgnoreCase(filterType)) {
                     newcharacterList.add(character);
                 }
-                else if(filterType.equals("Hufflepuff") && character.getHouse().equalsIgnoreCase("Huffleluff")){
-                    newcharacterList.add(character);
 
-                }
-                else if(filterType.equals("Slytherin") && character.getHouse().equalsIgnoreCase("Slythetin")){
-                    newcharacterList.add(character);
-
-                }
             });
         }
 

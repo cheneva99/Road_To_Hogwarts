@@ -52,7 +52,7 @@ public class SpellRecyclerAdapter extends RecyclerView.Adapter<SpellRecyclerAdap
         holder.spellName.setText( spells.get(position).getName());
 
         String spellType = spells.get(position).getType();
-        if (spellType != "null") {
+        if (!spellType.equalsIgnoreCase("null")) {
             holder.spellType.setText(spellType);
         }
 

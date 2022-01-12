@@ -2,28 +2,40 @@ package com.isep.roadtohogwarts;
 
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 public class Character {
     private String name;
-    private boolean student;
-    private boolean staff;
+    private boolean isStudent;
+    private boolean isStaff;
     private String species;
     private String house;
     private String actorName;
     private String patronus;
     private String imageUrl;
-    private String status;
     private String gender;
 
 
     public Character(JSONObject characterJson) {
         try {
             this.name = characterJson.getString("name");
-            this.student = characterJson.getBoolean("hogwartsStudent");
-            this.staff = characterJson.getBoolean("hogwartsStaff");
+            this.isStudent = characterJson.getBoolean("hogwartsStudent");
+            this.isStaff = characterJson.getBoolean("hogwartsStaff");
             this.species = characterJson.getString("species");
             this.actorName = characterJson.getString("actor");
-            this.house = characterJson.getString("house");
-            this.patronus = characterJson.getString("patronus");
+            if(characterJson.getString("house").equalsIgnoreCase("Huffleluff")){
+                this.house = "Hufflepuff";
+            }else if(characterJson.getString("house").equalsIgnoreCase("Slythetin")){
+                this.house = "Slytherin";
+            }else{
+                this.house = characterJson.getString("house");
+            }
+            if(characterJson.getString("patronus").equalsIgnoreCase("")){
+                this.patronus = "None";
+            }
+            else {
+                this.patronus = characterJson.getString("patronus");
+            }
             this.imageUrl = characterJson.getString("image");
             this.gender = characterJson.getString("gender");
         } catch (Exception err) {
@@ -40,15 +52,15 @@ public class Character {
     }
 
     public boolean isStudent() {
-        return student;
+        return isStudent;
     }
 
     public boolean isStaff() {
-        return staff;
+        return isStaff;
     }
 
     public String getSpecies() {
-        return species;
+        return formatString(species);
     }
 
     public String getHouse() {
@@ -64,7 +76,7 @@ public class Character {
     }
 
     public String getPatronus() {
-        return patronus;
+        return formatString(patronus);
     }
 
 
@@ -83,6 +95,16 @@ public class Character {
         return "Other";
     }
 
-    public String getGender() { return gender; }
+    public String getGender() {
+
+        return formatString(gender); }
+
+    public String formatString(String str){
+        if(str == null || str.isEmpty()) {
+            return str;
+        }
+
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
 
 }

@@ -42,11 +42,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
+            android:textAlignment="center"
             />
         <TextView
             android:id="@+id/scoreResultTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             />
 
         <androidx.appcompat.widget.AppCompatButton
