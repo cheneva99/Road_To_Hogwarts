@@ -1,5 +1,6 @@
 package com.isep.roadtohogwarts.potion.quiz;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,11 @@ import android.widget.TextView;
 
 import com.isep.roadtohogwarts.R;
 
+import java.io.IOException;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 public class QuizFinishedFragment extends Fragment {
 
     private int score;
@@ -31,27 +37,43 @@ public class QuizFinishedFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("score", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult( String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
                 score = bundle.getInt("score");
-                // Do something with the result
                 Log.d("TAG", "onFragmentResult: "+score);
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
+                GifImageView gifImageView = inputView.findViewById(R.id.gifImageView);
                 categoryTextView.setText(R.string.potions);
                 scoreResultTextView.setText(score+"/10");
                 if(score<8){
+                    try {
+                        GifDrawable gifDrawableFail = new GifDrawable(getResources(), R.drawable.failed_quiz);
+                        gifImageView.setImageDrawable(gifDrawableFail);
+                    } catch (Resources.NotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     scoreCommentTextView.setText(R.string.scoreComment);
 
                 }
                 else{
+                    try {
+                        GifDrawable gifDrawableSuccess = new GifDrawable(getResources(), R.drawable.quiz_success);
+                        gifImageView.setImageDrawable(gifDrawableSuccess);
+                    } catch (Resources.NotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     scoreCommentTextView.setText(R.string.congrats);
 
                 }
                 Button restartButton = inputView.findViewById(R.id.restartQuizButton);
                 restartButton.setOnClickListener(view -> {
                     try {
-                        Navigation.findNavController(view).navigate(R.id.action_navigation_quiz_ended_to_navigation_quiz_start);
+                        Navigation.findNavController(view).navigateUp();
+
 
                     }
                     catch (Exception e){

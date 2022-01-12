@@ -20,26 +20,21 @@
             android:fontFamily="@font/sofiapro_regular_italic"
             />
 
-        <pl.droidsonroids.gif.GifImageView
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/gifImageView"
-            android:paddingLeft="20dp"
-            android:paddingTop="40dp"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/scoreCommentTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/black"
-            android:paddingTop="60dp"/>
+            android:textColor="@color/black"/>
         <TextView
             android:id="@+id/scoreTextView"
             android:text="@string/score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="60dp"
            />
         <TextView
             android:id="@+id/scoreResultTextView"
@@ -54,8 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="30dp">
+            >
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>

@@ -22,32 +22,39 @@
         android:onClick="onClick"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:orientation="vertical"
             >
 
             <ImageView
-                android:layout_width="155dp"
-                android:layout_height="205dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/characters"
                 android:scaleType="fitXY"
                 />
 
             <TextView
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:text="Characters"
+                android:background="@color/blue"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 />
 
+
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -60,30 +67,36 @@
         android:onClick="onClick"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:orientation="vertical"
             >
 
             <ImageView
-                android:layout_width="155dp"
-                android:layout_height="205dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/spells"
                 android:scaleType="fitXY"
                 />
 
             <TextView
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="wrap_content"
                 android:text="Spells"
+                android:background="@color/blue"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -98,30 +111,36 @@
         android:onClick="onClick"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:orientation="vertical"
             >
 
             <ImageView
-                android:layout_width="155dp"
-                android:layout_height="205dp"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitXY"
                 android:src="@drawable/potions"
+                android:scaleType="fitXY"
                 />
 
             <TextView
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Potions"
+                android:background="@color/blue"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -136,30 +155,36 @@
         android:onClick="onClick"
         >
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
             android:layout_gravity="center"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:orientation="vertical"
             >
 
             <ImageView
-                android:layout_width="155dp"
-                android:layout_height="205dp"
-                android:scaleType="fitXY"
+                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/books"
+                android:scaleType="fitXY"
                 />
 
             <TextView
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Books"
+                android:background="@color/blue"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 />
+
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

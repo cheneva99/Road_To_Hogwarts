@@ -28,15 +28,9 @@ public class SpellActivity extends AppCompatActivity {
         actionBar.setTitle("Spells");
 
         actionBar.setDisplayHomeAsUpEnabled(true);
-
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_encyclopedia, R.id.navigation_quiz_started)
-                .build();
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment_activity_spell);
         navController = navHostFragment.getNavController();
-       // NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
         NavigationUI.setupWithNavController(binding.navView, navController);
     }

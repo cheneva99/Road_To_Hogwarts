@@ -39,9 +39,7 @@ public class QuizFinishedFragment extends Fragment {
         getParentFragmentManager().setFragmentResultListener("score", this, new FragmentResultListener() {
             @Override
             public void onFragmentResult( String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported
                 score = bundle.getInt("score");
-                // Do something with the result
                 Log.d("TAG", "onFragmentResult: "+score);
                 TextView scoreResultTextView = inputView.findViewById(R.id.scoreResultTextView);
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
