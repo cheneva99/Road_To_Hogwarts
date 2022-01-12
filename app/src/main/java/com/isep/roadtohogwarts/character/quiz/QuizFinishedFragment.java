@@ -41,7 +41,7 @@ public class QuizFinishedFragment extends Fragment {
                 TextView scoreCommentTextView = inputView.findViewById(R.id.scoreCommentTextView);
                 TextView categoryTextView = inputView.findViewById(R.id.categoryTextView);
                 GifImageView gifImageView = inputView.findViewById(R.id.gifImageView);
-                categoryTextView.setText("Spells");
+                categoryTextView.setText("Characters");
                 scoreResultTextView.setText(score+"/10");
                 if(score<8){
                     try {
