@@ -11,6 +11,8 @@ public class Character {
     private String actorName;
     private String patronus;
     private String imageUrl;
+    private String status;
+    private String gender;
 
 
     public Character(JSONObject characterJson) {
@@ -23,6 +25,7 @@ public class Character {
             this.house = characterJson.getString("house");
             this.patronus = characterJson.getString("patronus");
             this.imageUrl = characterJson.getString("image");
+            this.gender = characterJson.getString("gender");
         } catch (Exception err) {
 
         }
@@ -40,15 +43,25 @@ public class Character {
         return student;
     }
 
+    public void setStudent(boolean student) {
+        this.student = student;
+    }
 
     public boolean isStaff() {
         return staff;
+    }
+
+    public void setStaff(boolean staff) {
+        this.staff = staff;
     }
 
     public String getSpecies() {
         return species;
     }
 
+    public void setSpecies(String species) {
+        this.species = species;
+    }
 
     public String getHouse() {
         return house;
@@ -62,13 +75,39 @@ public class Character {
         return actorName;
     }
 
+    public void setActorName(String actorName) {
+        this.actorName = actorName;
+    }
 
     public String getPatronus() {
         return patronus;
+    }
+
+    public void setPatronus(String patronus) {
+        this.patronus = patronus;
     }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getStatus() {
+        if (isStudent()) {
+            return "Hogwarts Student";
+        }
+        if (isStaff()) {
+            return "Hogwarts Staff";
+        }
+        return "Other";
+    }
+
+    public void setStatus(String status) { this.status = status; }
+
+    public String getGender() { return gender; }
+
+    public void setGender(String gender) { this.gender = gender; }
 }

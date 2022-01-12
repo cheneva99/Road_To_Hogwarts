@@ -96,4 +96,3 @@ public class CharacterRecyclerAdapter extends RecyclerView.Adapter<CharacterRecy
 }
 
 
-

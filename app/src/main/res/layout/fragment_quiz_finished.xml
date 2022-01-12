@@ -21,7 +21,7 @@
             />
 
         <pl.droidsonroids.gif.GifImageView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/gifImageView"
             android:paddingLeft="20dp"
@@ -33,7 +33,9 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:paddingTop="60dp"/>
+            android:paddingTop="60dp"
+            android:paddingBottom="20dp"
+            android:textAlignment="center"/>
         <TextView
             android:id="@+id/scoreTextView"
             android:text="@string/score"
@@ -54,8 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="false"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="30dp">
+            android:layout_gravity="center_horizontal">
         </androidx.appcompat.widget.AppCompatButton>
 
     </LinearLayout>

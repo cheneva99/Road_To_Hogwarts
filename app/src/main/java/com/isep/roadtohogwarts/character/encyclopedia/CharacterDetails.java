@@ -1,66 +1,167 @@
+
 package com.isep.roadtohogwarts.character.encyclopedia;
+ import android.os.Bundle;
 
-import android.os.Bundle;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ImageView;
+        import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+        import androidx.annotation.NonNull;
+        import androidx.fragment.app.Fragment;
+        import androidx.fragment.app.FragmentResultListener;
 
-import com.isep.roadtohogwarts.R;
+        import com.android.volley.DefaultRetryPolicy;
+        import com.android.volley.Request;
+        import com.android.volley.RequestQueue;
+        import com.android.volley.Response;
+        import com.android.volley.RetryPolicy;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.StringRequest;
+        import com.android.volley.toolbox.Volley;
+        import com.isep.roadtohogwarts.Character;
+        import com.isep.roadtohogwarts.R;
+        import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CharacterDetails#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CharacterDetails extends Fragment {
+        import org.json.JSONArray;
+        import org.json.JSONException;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class CharacterDetails extends Fragment  {
 
-    public CharacterDetails() {
-        // Required empty public constructor
-    }
+    private View inputFragmentView;
+    private RequestQueue queue;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CharacterDetails.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CharacterDetails newInstance(String param1, String param2) {
-        CharacterDetails fragment = new CharacterDetails();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public Character currentCharacter;
+    private  TextView gender;
+    private  TextView house;
+    private  TextView status;
+    private  TextView species;
+    private  TextView actor;
+    private TextView patronus;
+    private  TextView name;
+    private ImageView characterImage;
+    private String characterName;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        getParentFragmentManager().setFragmentResultListener("characterName", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(String requestKey, @NonNull Bundle bundle) {
+
+                characterName = bundle.getString("characterName");
+                species = inputFragmentView.findViewById(R.id.species);
+                house = inputFragmentView.findViewById(R.id.house);
+                actor = inputFragmentView.findViewById(R.id.actorName);
+                patronus = inputFragmentView.findViewById(R.id.patronus);
+                name = inputFragmentView.findViewById(R.id.characterName);
+                status = inputFragmentView.findViewById(R.id.status);
+                characterImage = inputFragmentView.findViewById(R.id.characterCard);
+                gender = inputFragmentView.findViewById(R.id.gender);
+
+                queue = Volley.newRequestQueue(getContext());
+                callApi(characterName);
+            }
+        });
+    }
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        inputFragmentView = inflater.inflate(R.layout.fragment_character_details, container, false);
+
+        return inputFragmentView;
     }
 
+   /* @Override
+    public void onStart() {
+
+        super.onStart();
+        queue = Volley.newRequestQueue(this.getContext());
+        callApi(characterName);
+
+    }*/
+
+
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_character_details, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
     }
+
+
+    public void callApi(String characterName){
+
+        String myUrl = "https://hp-api.herokuapp.com/api/characters";
+
+        StringRequest myRequest = new StringRequest(Request.Method.GET, myUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONArray jsonArray = new JSONArray(response);
+
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                //Log.d("characterDetails", "onResponse: "+ jsonArray.getJSONObject(i).getString("name"));
+                                if(jsonArray.getJSONObject(i).getString("name").equals(characterName)){
+                                    currentCharacter = new Character(jsonArray.getJSONObject(i));
+                                }
+                            }
+
+                            gender.setText(currentCharacter.getGender());
+                            house.setText(currentCharacter.getHouse());
+                            name.setText(currentCharacter.getName());
+                            patronus.setText(currentCharacter.getPatronus());
+                            status.setText(currentCharacter.getStatus());
+                            species.setText(currentCharacter.getSpecies());
+                            actor.setText(currentCharacter.getActorName());
+                            setImage();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }}, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //  Log.e(TAG, "Error at sign in : " + error.getMessage());
+            }
+        });
+        int socketTimeout = 30000;
+        RetryPolicy retryPolicy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        myRequest.setRetryPolicy(retryPolicy);
+        queue.add(myRequest);
+
+
+
+    }
+
+public void setImage() {
+    try {
+        String url = currentCharacter.getImageUrl();
+
+        if(!url.equals("") ) {
+            Log.d("characterImage", ""+ url );
+            Picasso.get().load(url).resize(150,200).into(characterImage);
+        }else{
+            Picasso.get().load(R.drawable.background).resize(150,200).into(characterImage);
+
+        }
+
+    }catch(Exception e){
+        Log.d("image", "onBindViewHolder: "+e);
+
+
+
+    }
+}
+
+
+
 }

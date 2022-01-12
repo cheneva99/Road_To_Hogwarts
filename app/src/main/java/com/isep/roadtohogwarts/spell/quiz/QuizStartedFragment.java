@@ -31,6 +31,7 @@ import com.isep.roadtohogwarts.R;
 import com.isep.roadtohogwarts.Spell;
 import com.isep.roadtohogwarts.Question;
 import com.isep.roadtohogwarts.Quiz;
+import com.isep.roadtohogwarts.character.encyclopedia.EncyclopediaFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
